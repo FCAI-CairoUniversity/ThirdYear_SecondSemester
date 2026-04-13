@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35818.85 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{C9674DCB-5085-4A16-B785-4C70DD1589BD}") = "DW-Lab5", "DW-Lab5.dtproj", "{9DC400D3-21DF-C5B4-15C3-8CF20B94AA7A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DC400D3-21DF-C5B4-15C3-8CF20B94AA7A}.Development|Default.ActiveCfg = Development
+		{9DC400D3-21DF-C5B4-15C3-8CF20B94AA7A}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {524FF674-79FA-449A-93DC-289927AF8E7D}
+	EndGlobalSection
+EndGlobal
