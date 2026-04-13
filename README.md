@@ -1,6 +1,6 @@
 # 📚 Third Year, Second Semester
 
-📌 A comprehensive collection of tasks and lectures covering **Data Warehousing, Business Process Management, and Artificial Intelligence**.
+📌 A comprehensive collection of tasks and lectures covering **Data Warehousing, Business Process Management, Information Retrieval and Artificial Intelligence**.
 
 ---
 
@@ -11,6 +11,7 @@ The repository is organized into subject-based folders for easy navigation:
 - **📁 Artificial Intelligence - CS361.**
 - **📁 Business Process Management - IS341.**
 - **📁 Data Warehousing - IS313.**
+- **📁 Information Retrieval - IS322.**
 
 ---
 
