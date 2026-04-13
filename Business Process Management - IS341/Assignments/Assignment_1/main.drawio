@@ -1,0 +1,128 @@
+<mxfile host="65bd71144e">
+    <diagram id="5NCqjqQc4dhrAWVtTtme" name="Process Landscape">
+        <mxGraphModel dx="1072" dy="1105" grid="1" gridSize="20" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="17" value="" style="group" parent="1" vertex="1" connectable="0">
+                    <mxGeometry x="340" y="340" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="" style="shape=offPageConnector;whiteSpace=wrap;html=1;rotation=-180;" parent="17" vertex="1">
+                    <mxGeometry width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="Manage IT Systems" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="17" vertex="1">
+                    <mxGeometry y="20" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="" style="group" parent="1" vertex="1" connectable="0">
+                    <mxGeometry x="540" y="340" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="" style="shape=offPageConnector;whiteSpace=wrap;html=1;rotation=-180;" parent="20" vertex="1">
+                    <mxGeometry width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="Manage Customer&amp;nbsp;Records" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="20" vertex="1">
+                    <mxGeometry y="20" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="" style="group" parent="1" vertex="1" connectable="0">
+                    <mxGeometry x="740" y="340" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="" style="shape=offPageConnector;whiteSpace=wrap;html=1;rotation=-180;" parent="23" vertex="1">
+                    <mxGeometry width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="Manage Drug Inventory (Materials)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="23" vertex="1">
+                    <mxGeometry y="20" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" parent="1" source="28" target="29" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="Prescription Intake" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+                    <mxGeometry x="190" y="160" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" parent="1" source="29" target="30" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="Data Entry &amp;amp; Review" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+                    <mxGeometry x="370" y="160" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" parent="1" source="30" target="31" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="Insurance Check&amp;nbsp;&lt;div&gt;&amp;amp; Exception Handling&lt;/div&gt;" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+                    <mxGeometry x="550" y="160" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endArrow=none;endFill=0;" parent="1" source="31" target="32" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="Prescription&amp;nbsp;&lt;div&gt;Preparation&lt;/div&gt;" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+                    <mxGeometry x="730" y="160" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="38" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" parent="1" source="32" target="33" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="Quality Assurance&amp;nbsp;&lt;div&gt;Check&lt;/div&gt;" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+                    <mxGeometry x="910" y="160" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="Dispensing &amp;amp;&amp;nbsp;&lt;div&gt;Payment&lt;/div&gt;" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+                    <mxGeometry x="1090" y="160" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="40" value="" style="group" parent="1" vertex="1" connectable="0">
+                    <mxGeometry x="940" y="340" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="41" value="" style="shape=offPageConnector;whiteSpace=wrap;html=1;rotation=-180;" parent="40" vertex="1">
+                    <mxGeometry width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="42" value="Manage Financial Billing" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="40" vertex="1">
+                    <mxGeometry y="20" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="Manage Workload &amp;amp; Capacity" style="shape=offPageConnector;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="440" y="-60" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="Manage Insurance Rules" style="shape=offPageConnector;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="-60" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="43" value="Manage Drug Safety Risks" style="shape=offPageConnector;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="840" y="-60" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="44" value="" style="group" parent="1" vertex="1" connectable="0">
+                    <mxGeometry x="160" y="-120" width="1120" height="600" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="&lt;b&gt;Core Processes&lt;/b&gt;" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=160;height=40;" parent="44" vertex="1">
+                    <mxGeometry y="200" width="1120" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="&lt;b&gt;Management Processes&lt;/b&gt;" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=160;height=40;" parent="44" vertex="1">
+                    <mxGeometry width="1120" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="&lt;b&gt;Support Processes&lt;/b&gt;" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=160;height=40;" parent="44" vertex="1">
+                    <mxGeometry y="400" width="1120" height="200" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="ykjvvRe4ll7eGP5TD3U2" name="Process Profile">
+        <mxGraphModel dx="1072" dy="705" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KGML7C_MSATQpS28q3bb" name="Components">
+        <mxGraphModel dx="2213" dy="742" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="ftmNsNt_tOwCGHdF6Yca-1" value="" style="shape=offPageConnector;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-505" y="390" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="ftmNsNt_tOwCGHdF6Yca-2" value="" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+                    <mxGeometry x="-505" y="510" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="ftmNsNt_tOwCGHdF6Yca-3" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="-505" y="630" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="ftmNsNt_tOwCGHdF6Yca-4" value="" style="shape=offPageConnector;whiteSpace=wrap;html=1;rotation=-180;" vertex="1" parent="ftmNsNt_tOwCGHdF6Yca-3">
+                    <mxGeometry width="160" height="80" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
