@@ -1,0 +1,18 @@
+W3 Schools Links:
+https://www.w3schools.com/php/php_cookies.asp
+https://www.w3schools.com/php/php_sessions.asp
+
+Useful Videos:
+https://www.youtube.com/watch?v=vp2I843iaRE&list=PLP4C04JGIPhR7sW8OUw4JLtI4vLTy4fQT&index=2
+
+Challenges:
+1. COOKIES Practice
+ 1.1. create an index page that asks the user to pick his favorite color (use forms)
+ 1.2. save the chosen color in a cookie named 'color'.
+ 1.3. use the saved color to change the background color of your page (after the cookie is saved).
+ 1.4. Find a way to encrypt cookie data and later read and decrypt the content.
+
+2. SESSIONS Practice
+ 2.1. Modify the code at session_example/destroy_session.php to remove the cookie named "PHPSESSID".
+ 2.2. Try to modify the code at  session_example/index.php to end the session after 1 minute.
+

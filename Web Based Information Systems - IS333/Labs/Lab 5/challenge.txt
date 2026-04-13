@@ -1,0 +1,4 @@
+1. go to the rapid api free library:
+https://rapidapi.com/collection/list-of-free-apis
+2. search for any api of your interest
+3. use the api by replecating the AXIOS example and the rapid_api example

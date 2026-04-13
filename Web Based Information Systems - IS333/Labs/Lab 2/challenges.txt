@@ -1,0 +1,23 @@
+// All of the following tasks to be conducted using codes in example2 folder as a starting point
+
+Lab Challenges:
+1. Consider a new text field is added to the form to hold url for his/her linkedin account.
+
+2. Apply this on the form (validate on client-side).
+
+3. Validate on the validation page (show.php) using filters "FILTER_VALIDATE_URL" consider the function (validateEmail).
+
+4. Add another validation rule to check that the name is longer than 5 characters.
+    using built-in function strlen
+
+Home Challenges:
+1. Add another function named "validateURLRegex" to validate the URL with regex consider the funtion(validateEmailRegex).
+
+2. Add another validation rule to check that the user age is not greater than 100 years
+    if so add an error message "Your age can't be more than a 100 Years" (search for dates comparison using php)
+
+3. Try to execute the validation along with the same page that holds the form
+    and make any necessary changes to the code (relocate the code in show.php to index.php)
+
+4. Examine PHP FORMS Section on W3schools using this link:
+    https://www.w3schools.com/php/php_forms.asp
