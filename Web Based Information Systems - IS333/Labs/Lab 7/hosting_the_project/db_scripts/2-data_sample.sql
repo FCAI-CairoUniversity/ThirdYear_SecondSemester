@@ -1,0 +1,3 @@
+INSERT INTO myguests (firstname, lastname, email) VALUES ('John', 'Doe', 'john@example.com');
+INSERT INTO myguests (firstname, lastname, email) VALUES ('Mary', 'Moe', 'mary@example.com');
+INSERT INTO myguests (firstname, lastname, email) VALUES ('Julie', 'Dooley', 'julie@example.com');

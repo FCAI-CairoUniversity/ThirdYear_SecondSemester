@@ -1,0 +1,34 @@
+1. Visit the following site: https://www.infinityfree.com/
+2. Register and create a free account
+3. Login with your account.
+4. click on "Hosting Accounts" then click on "Create Account", choos infinityfree plan click on "Create Now"
+5. Choose your subdomain and proceed to next step - then "Create Account"
+6. Wait untill Your account is created
+
+-----Creating Host-------
+7. Go to  "Hosting Accounts" - choose your created account - click on "Control Panel"
+
+-----Creating Databse-------
+8. Scroll to find Databases section - click on "Mysql Databases"
+9. Write a name for your database and click on "Create Database"
+10.Find your database in the list below under "Current Databases" section and click on "Admin"
+
+----Creating Tables and populating sample data----------
+11.Copy and run the database creation script in db_scripts\1-db_creation.sql
+12.Copy and run the sample data script in db_scripts\2-data_sample.sql
+
+----Preparing your project with necessary details---------
+13. Go to  "Hosting Accounts" - choose your created account -  Overview
+15. click on "MySQL Databases" Note down your Databse Name, Username, Password and Hostname
+16. Replace the placeholders in using_env\.env with your noted details.
+
+----Uploading your project to the created hosting acount-----
+17. Go to  "Hosting Accounts" - choose your created account -  File Manager
+18. Double Click on "htdocs" - delete all the files there.
+19. Click on "Upload" - choose folder option - browse and select the "using_env" folder [You can rename it to your liking]
+I choose to rename it to first_project
+
+---Testing your uploaded project---
+20. Go to  "Hosting Accounts" - note down the name of your domain under "Domains" section
+21. In your browser url type YOUR_DOMAIN_NAME_STEP19\YOUR_FOLDER_NAME_STEP20
+22. Test the different scenarios using links from the navigation bar
