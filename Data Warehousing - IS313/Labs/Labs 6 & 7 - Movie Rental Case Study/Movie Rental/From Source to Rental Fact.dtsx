@@ -1,0 +1,2943 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/22/2026 11:49:16 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="NEHAL"
+  DTS:CreatorName="NEHAL\nini_"
+  DTS:DTSID="{1EB2AD72-B322-447B-B96B-A4599F568A93}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5397.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="From Source to Rental Fact"
+  DTS:PackageType="5"
+  DTS:VersionBuild="61"
+  DTS:VersionGUID="{02357535-5127-4E9C-B7F5-E00ECEF406FB}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{BB20D921-BE0E-4900-A0CC-9B2DC01DBD73}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="Last_Extract_Date">
+      <DTS:VariableValue
+        DTS:DataType="7">1/1/1950</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Get Last Extract Date"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{665b9bf1-3b64-4f2c-ba65-139b0ae05f8c}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get Last Extract Date"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1D6B2054-0760-4B93-9442-B96F8EDB6255}"
+          SQLTask:SqlStatementSource="SELECT last_extract_date&#xA;FROM STG.etl_watermark&#xA;WHERE Table_Name = 'Rental'"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::Last_Extract_Date" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load_STG_Rental"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{5B85FA4F-522F-4613-B123-78BCB6BC1022}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load_STG_Rental"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load_STG_Rental\Calculate Late Flag"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Calculate Late Flag"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load_STG_Rental\Calculate Late Flag.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\Calculate Late Flag.Inputs[Derived Column Input].Columns[allowed_rental_duration]"
+                      cachedDataType="ui1"
+                      cachedName="allowed_rental_duration"
+                      lineageId="Package\Load_STG_Rental\lkp_movie.Outputs[Lookup Match Output].Columns[allowed_rental_duration]" />
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\Calculate Late Flag.Inputs[Derived Column Input].Columns[rental_duration_days]"
+                      cachedDataType="i4"
+                      cachedName="rental_duration_days"
+                      lineageId="Package\Load_STG_Rental\Calculate Rental Duration.Outputs[Derived Column Output].Columns[rental_duration_days]" />
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\Calculate Late Flag.Inputs[Derived Column Input].Columns[rental_date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="rental_date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[rental_date]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_DBDATE)#{Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[rental_date]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBDATE)rental_date</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\Calculate Late Flag.Inputs[Derived Column Input].Columns[return_date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="return_date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[return_date]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_DBDATE)#{Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[return_date]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBDATE)return_date</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load_STG_Rental\Calculate Late Flag.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load_STG_Rental\Calculate Late Flag.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\Calculate Late Flag.Outputs[Derived Column Output].Columns[late_flag]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load_STG_Rental\Calculate Late Flag.Outputs[Derived Column Output].Columns[late_flag]"
+                      name="late_flag"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Load_STG_Rental\Calculate Rental Duration.Outputs[Derived Column Output].Columns[rental_duration_days]} &gt; #{Package\Load_STG_Rental\lkp_movie.Outputs[Lookup Match Output].Columns[allowed_rental_duration]} ? 1 : 0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">rental_duration_days &gt; allowed_rental_duration ? 1 : 0</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load_STG_Rental\Calculate Late Flag.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load_STG_Rental\Calculate Late Flag.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\Calculate Late Flag.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load_STG_Rental\Calculate Late Flag.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\Calculate Late Flag.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load_STG_Rental\Calculate Late Flag.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load_STG_Rental\Calculate Rental Duration"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Calculate Rental Duration"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load_STG_Rental\Calculate Rental Duration.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\Calculate Rental Duration.Inputs[Derived Column Input].Columns[rental_date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="rental_date"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[rental_date]" />
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\Calculate Rental Duration.Inputs[Derived Column Input].Columns[return_date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="return_date"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[return_date]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load_STG_Rental\Calculate Rental Duration.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load_STG_Rental\Calculate Rental Duration.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\Calculate Rental Duration.Outputs[Derived Column Output].Columns[o_create_timestamp]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load_STG_Rental\Calculate Rental Duration.Outputs[Derived Column Output].Columns[o_create_timestamp]"
+                      name="o_create_timestamp"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\Calculate Rental Duration.Outputs[Derived Column Output].Columns[rental_duration_days]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load_STG_Rental\Calculate Rental Duration.Outputs[Derived Column Output].Columns[rental_duration_days]"
+                      name="rental_duration_days"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[DATEDIFF]("day",#{Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[rental_date]},#{Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[return_date]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">DATEDIFF("day",rental_date,return_date)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load_STG_Rental\Calculate Rental Duration.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load_STG_Rental\Calculate Rental Duration.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\Calculate Rental Duration.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load_STG_Rental\Calculate Rental Duration.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\Calculate Rental Duration.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load_STG_Rental\Calculate Rental Duration.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load_STG_Rental\lkp_inventory"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="lkp_inventory"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[inventory]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[inventory]) [refTable]
+where [refTable].[inventory_id] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="inventory_id" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="film_id" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="store_id" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="last_update" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[inventory_id]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load_STG_Rental\lkp_inventory.Connections[OleDbConnection]"
+                  connectionManagerID="{BABAAFED-B09D-46C8-9D15-DFF8D0DB471A}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[NEHAL.Movies]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load_STG_Rental\lkp_inventory.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\lkp_inventory.Inputs[Lookup Input].Columns[inventory_id]"
+                      cachedDataType="i4"
+                      cachedName="inventory_id"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[inventory_id]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">inventory_id</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load_STG_Rental\lkp_inventory.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup Match Output].Columns[film_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup Match Output].Columns[film_id]"
+                      name="film_id"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">film_id</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup Match Output].Columns[store_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup Match Output].Columns[store_id]"
+                      name="store_id"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">store_id</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load_STG_Rental\lkp_inventory.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load_STG_Rental\lkp_inventory.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load_STG_Rental\lkp_movie"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="lkp_movie"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[film]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[film]) [refTable]
+where [refTable].[film_id] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="film_id" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="title" dataType="DT_STR" length="255" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="description" dataType="DT_TEXT" length="0" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="release_year" dataType="DT_STR" length="4" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="language_id" dataType="DT_UI1" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="original_language_id" dataType="DT_UI1" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="rental_duration" dataType="DT_UI1" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="rental_rate" dataType="DT_NUMERIC" length="0" precision="4" scale="2" codePage="0"/&gt;&lt;referenceColumn name="length" dataType="DT_I2" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="replacement_cost" dataType="DT_NUMERIC" length="0" precision="5" scale="2" codePage="0"/&gt;&lt;referenceColumn name="rating" dataType="DT_STR" length="10" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="special_features" dataType="DT_STR" length="255" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="last_update" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup Match Output].Columns[film_id]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load_STG_Rental\lkp_movie.Connections[OleDbConnection]"
+                  connectionManagerID="{BABAAFED-B09D-46C8-9D15-DFF8D0DB471A}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[NEHAL.Movies]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load_STG_Rental\lkp_movie.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\lkp_movie.Inputs[Lookup Input].Columns[film_id]"
+                      cachedDataType="i4"
+                      cachedName="film_id"
+                      lineageId="Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup Match Output].Columns[film_id]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">film_id</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load_STG_Rental\lkp_movie.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load_STG_Rental\lkp_movie.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\lkp_movie.Outputs[Lookup Match Output].Columns[allowed_rental_duration]"
+                      dataType="ui1"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load_STG_Rental\lkp_movie.Outputs[Lookup Match Output].Columns[allowed_rental_duration]"
+                      name="allowed_rental_duration"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">rental_duration</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load_STG_Rental\lkp_movie.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load_STG_Rental\lkp_movie.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load_STG_Rental\lkp_movie.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load_STG_Rental\lkp_movie.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\lkp_movie.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load_STG_Rental\lkp_movie.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\lkp_movie.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load_STG_Rental\lkp_movie.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load_STG_Rental\SRC_DB_Rental"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="SRC_DB_Rental"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[rental]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from rental where last_update &gt; ?</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping">"0:Input",{BB20D921-BE0E-4900-A0CC-9B2DC01DBD73};</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load_STG_Rental\SRC_DB_Rental.Connections[OleDbConnection]"
+                  connectionManagerID="{BABAAFED-B09D-46C8-9D15-DFF8D0DB471A}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[NEHAL.Movies]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[rental_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].ExternalColumns[rental_id]"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[rental_id]"
+                      name="rental_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[rental_date]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].ExternalColumns[rental_date]"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[rental_date]"
+                      name="rental_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[inventory_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].ExternalColumns[inventory_id]"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[inventory_id]"
+                      name="inventory_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[customer_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].ExternalColumns[customer_id]"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[customer_id]"
+                      name="customer_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[return_date]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].ExternalColumns[return_date]"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[return_date]"
+                      name="return_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[staff_id]"
+                      dataType="ui1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].ExternalColumns[staff_id]"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[staff_id]"
+                      name="staff_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[last_update]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].ExternalColumns[last_update]"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[last_update]"
+                      name="last_update"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].ExternalColumns[rental_id]"
+                      dataType="i4"
+                      name="rental_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].ExternalColumns[rental_date]"
+                      dataType="dbTimeStamp"
+                      name="rental_date" />
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].ExternalColumns[inventory_id]"
+                      dataType="i4"
+                      name="inventory_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].ExternalColumns[customer_id]"
+                      dataType="i4"
+                      name="customer_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].ExternalColumns[return_date]"
+                      dataType="dbTimeStamp"
+                      name="return_date" />
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].ExternalColumns[staff_id]"
+                      dataType="ui1"
+                      name="staff_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].ExternalColumns[last_update]"
+                      dataType="dbTimeStamp"
+                      name="last_update" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[rental_id]"
+                      dataType="i4"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[rental_id]"
+                      name="rental_id" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[rental_date]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[rental_date]"
+                      name="rental_date" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[inventory_id]"
+                      dataType="i4"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[inventory_id]"
+                      name="inventory_id" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[customer_id]"
+                      dataType="i4"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[customer_id]"
+                      name="customer_id" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[return_date]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[return_date]"
+                      name="return_date" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[staff_id]"
+                      dataType="ui1"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[staff_id]"
+                      name="staff_id" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[last_update]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[last_update]"
+                      name="last_update" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load_STG_Rental\TGT_STG_Rental"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="TGT_STG_Rental"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[STG].[Rental]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load_STG_Rental\TGT_STG_Rental.Connections[OleDbConnection]"
+                  connectionManagerID="{1D6B2054-0760-4B93-9442-B96F8EDB6255}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[NEHAL.Movie_Rental]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].Columns[rental_id]"
+                      cachedDataType="i4"
+                      cachedName="rental_id"
+                      externalMetadataColumnId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[rental_id]"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[rental_id]" />
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].Columns[rental_date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="rental_date"
+                      externalMetadataColumnId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[rental_date]"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[rental_date]" />
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].Columns[customer_id]"
+                      cachedDataType="i4"
+                      cachedName="customer_id"
+                      externalMetadataColumnId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[customer_id]"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[customer_id]" />
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].Columns[return_date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="return_date"
+                      externalMetadataColumnId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[return_date]"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[return_date]" />
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].Columns[store_id]"
+                      cachedDataType="i4"
+                      cachedName="store_id"
+                      externalMetadataColumnId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[store_id]"
+                      lineageId="Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup Match Output].Columns[store_id]" />
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].Columns[film_id]"
+                      cachedDataType="i4"
+                      cachedName="film_id"
+                      externalMetadataColumnId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[movie_id]"
+                      lineageId="Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup Match Output].Columns[film_id]" />
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].Columns[rental_duration_days]"
+                      cachedDataType="i4"
+                      cachedName="rental_duration_days"
+                      externalMetadataColumnId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[rental_duration]"
+                      lineageId="Package\Load_STG_Rental\Calculate Rental Duration.Outputs[Derived Column Output].Columns[rental_duration_days]" />
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].Columns[late_flag]"
+                      cachedDataType="i4"
+                      cachedName="late_flag"
+                      externalMetadataColumnId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[late_return_flag]"
+                      lineageId="Package\Load_STG_Rental\Calculate Late Flag.Outputs[Derived Column Output].Columns[late_flag]" />
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].Columns[last_update]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="last_update"
+                      externalMetadataColumnId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[src_update_date]"
+                      lineageId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output].Columns[last_update]" />
+                    <inputColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].Columns[o_create_timestamp]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="o_create_timestamp"
+                      externalMetadataColumnId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[create_timestamp]"
+                      lineageId="Package\Load_STG_Rental\Calculate Rental Duration.Outputs[Derived Column Output].Columns[o_create_timestamp]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[rental_id]"
+                      dataType="i4"
+                      name="rental_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[rental_date]"
+                      dataType="dbDate"
+                      name="rental_date" />
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[return_date]"
+                      dataType="dbDate"
+                      name="return_date" />
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[customer_id]"
+                      dataType="i4"
+                      name="customer_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[movie_id]"
+                      dataType="i4"
+                      name="movie_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[store_id]"
+                      dataType="i4"
+                      name="store_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[rental_duration]"
+                      dataType="i4"
+                      name="rental_duration" />
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[late_return_flag]"
+                      dataType="i4"
+                      name="late_return_flag" />
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[src_update_date]"
+                      dataType="dbTimeStamp"
+                      name="src_update_date" />
+                    <externalMetadataColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input].ExternalColumns[create_timestamp]"
+                      dataType="dbTimeStamp"
+                      name="create_timestamp" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load_STG_Rental\TGT_STG_Rental.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load_STG_Rental\TGT_STG_Rental.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load_STG_Rental\TGT_STG_Rental.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load_STG_Rental\TGT_STG_Rental.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load_STG_Rental.Paths[Derived Column Output]"
+              endId="Package\Load_STG_Rental\Calculate Late Flag.Inputs[Derived Column Input]"
+              name="Derived Column Output"
+              startId="Package\Load_STG_Rental\Calculate Rental Duration.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load_STG_Rental.Paths[Derived Column Output1]"
+              endId="Package\Load_STG_Rental\TGT_STG_Rental.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load_STG_Rental\Calculate Late Flag.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load_STG_Rental.Paths[Lookup Match Output]"
+              endId="Package\Load_STG_Rental\lkp_movie.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load_STG_Rental\lkp_inventory.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load_STG_Rental.Paths[Lookup Match Output1]"
+              endId="Package\Load_STG_Rental\Calculate Rental Duration.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\Load_STG_Rental\lkp_movie.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load_STG_Rental.Paths[OLE DB Source Output]"
+              endId="Package\Load_STG_Rental\lkp_inventory.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load_STG_Rental\SRC_DB_Rental.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load_To_Fact_Rental"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{F7AAEF7A-4826-4C3E-B63E-AF38B3CF18CA}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load_To_Fact_Rental"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load_To_Fact_Rental\Add Date"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add Date"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load_To_Fact_Rental\Add Date.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\Add Date.Inputs[Derived Column Input].Columns[rental_date]"
+                      cachedDataType="dbDate"
+                      cachedName="rental_date"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[rental_date]" />
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\Add Date.Inputs[Derived Column Input].Columns[return_date]"
+                      cachedDataType="dbDate"
+                      cachedName="return_date"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[return_date]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load_To_Fact_Rental\Add Date.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Output].Columns[o_create_timestamp]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Output].Columns[o_create_timestamp]"
+                      name="o_create_timestamp"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Output].Columns[rental_date_key_str]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="15"
+                      lineageId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Output].Columns[rental_date_key_str]"
+                      name="rental_date_key_str"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACE]((DT_WSTR,15)(#{Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[rental_date]}),"-","")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACE((DT_WSTR,15)(rental_date),"-","")</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Output].Columns[return_date_key_str]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="15"
+                      lineageId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Output].Columns[return_date_key_str]"
+                      name="return_date_key_str"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[REPLACE]((DT_WSTR,15)(#{Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[return_date]}),"-","")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACE((DT_WSTR,15)(return_date),"-","")</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load_To_Fact_Rental\Add Date.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load_To_Fact_Rental\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load_To_Fact_Rental\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\Data Conversion.Inputs[Data Conversion Input].Columns[rental_date_key_str]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="rental_date_key_str"
+                      lineageId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Output].Columns[rental_date_key_str]" />
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\Data Conversion.Inputs[Data Conversion Input].Columns[return_date_key_str]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="return_date_key_str"
+                      lineageId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Output].Columns[return_date_key_str]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load_To_Fact_Rental\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Load_To_Fact_Rental\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\Data Conversion.Outputs[Data Conversion Output].Columns[rental_date_key]"
+                      dataType="ui8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load_To_Fact_Rental\Data Conversion.Outputs[Data Conversion Output].Columns[rental_date_key]"
+                      name="rental_date_key"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Output].Columns[rental_date_key_str]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\Data Conversion.Outputs[Data Conversion Output].Columns[return_date_key]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load_To_Fact_Rental\Data Conversion.Outputs[Data Conversion Output].Columns[return_date_key]"
+                      name="return_date_key"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Output].Columns[return_date_key_str]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load_To_Fact_Rental\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Load_To_Fact_Rental\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="lkpLookup_Movie_DIm"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [DWH].[D_Movie]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [DWH].[D_Movie]) [refTable]
+where [refTable].[src_id] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="movie_key" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="src_id" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="title" dataType="DT_STR" length="255" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="description" dataType="DT_TEXT" length="0" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="release_year" dataType="DT_STR" length="4" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="language" dataType="DT_STR" length="20" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="rental_duration" dataType="DT_UI1" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="length" dataType="DT_UI1" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="rating" dataType="DT_STR" length="10" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="is_last" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="create_timestamp" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="update_timestamp" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[movie_id]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Connections[OleDbConnection]"
+                  connectionManagerID="{1D6B2054-0760-4B93-9442-B96F8EDB6255}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[NEHAL.Movie_Rental]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Inputs[Lookup Input].Columns[movie_id]"
+                      cachedDataType="i4"
+                      cachedName="movie_id"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[movie_id]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">src_id</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Outputs[Lookup Match Output].Columns[movie_key]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Outputs[Lookup Match Output].Columns[movie_key]"
+                      name="movie_key"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">movie_key</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lkp_Customer_DIm"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [DWH].[D_Customer]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [DWH].[D_Customer]) [refTable]
+where [refTable].[src_id] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="customer_key" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="src_id" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="first_name" dataType="DT_STR" length="45" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="last_name" dataType="DT_STR" length="45" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="email" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="city" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="country" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="postal_code" dataType="DT_STR" length="10" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="is_active" dataType="DT_STR" length="1" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="is_last" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="create_timestamp" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="update_timestamp" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[customer_id]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Connections[OleDbConnection]"
+                  connectionManagerID="{1D6B2054-0760-4B93-9442-B96F8EDB6255}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[NEHAL.Movie_Rental]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Inputs[Lookup Input].Columns[customer_id]"
+                      cachedDataType="i4"
+                      cachedName="customer_id"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[customer_id]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">src_id</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Outputs[Lookup Match Output].Columns[customer_key]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Outputs[Lookup Match Output].Columns[customer_key]"
+                      name="customer_key"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">customer_key</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load_To_Fact_Rental\lkp_Store_DIm"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="lkp_Store_DIm"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [DWH].[D_Store]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [DWH].[D_Store]) [refTable]
+where [refTable].[src_id] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="store_key" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="src_id" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="address" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="district" dataType="DT_STR" length="20" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="city" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="country" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="postal_code" dataType="DT_STR" length="10" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="manager_first_name" dataType="DT_STR" length="45" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="manager_last_name" dataType="DT_STR" length="45" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="is_last" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="create_timestamp" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="update_timestamp" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[store_id]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Connections[OleDbConnection]"
+                  connectionManagerID="{1D6B2054-0760-4B93-9442-B96F8EDB6255}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[NEHAL.Movie_Rental]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Inputs[Lookup Input].Columns[store_id]"
+                      cachedDataType="i4"
+                      cachedName="store_id"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[store_id]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">src_id</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Outputs[Lookup Match Output].Columns[store_key]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Outputs[Lookup Match Output].Columns[store_key]"
+                      name="store_key"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">store_key</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load_To_Fact_Rental\SRC_STG_Rental"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="SRC_STG_Rental"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[STG].[Rental]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Connections[OleDbConnection]"
+                  connectionManagerID="{1D6B2054-0760-4B93-9442-B96F8EDB6255}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[NEHAL.Movie_Rental]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[rental_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[rental_id]"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[rental_id]"
+                      name="rental_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[rental_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[rental_date]"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[rental_date]"
+                      name="rental_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[return_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[return_date]"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[return_date]"
+                      name="return_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[customer_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[customer_id]"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[customer_id]"
+                      name="customer_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[movie_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[movie_id]"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[movie_id]"
+                      name="movie_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[store_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[store_id]"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[store_id]"
+                      name="store_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[rental_duration]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[rental_duration]"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[rental_duration]"
+                      name="rental_duration"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[late_return_flag]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[late_return_flag]"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[late_return_flag]"
+                      name="late_return_flag"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[rental_id]"
+                      dataType="i4"
+                      name="rental_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[rental_date]"
+                      dataType="dbDate"
+                      name="rental_date" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[return_date]"
+                      dataType="dbDate"
+                      name="return_date" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[customer_id]"
+                      dataType="i4"
+                      name="customer_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[movie_id]"
+                      dataType="i4"
+                      name="movie_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[store_id]"
+                      dataType="i4"
+                      name="store_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[src_update_date]"
+                      dataType="dbTimeStamp"
+                      name="src_update_date" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[create_timestamp]"
+                      dataType="dbTimeStamp"
+                      name="create_timestamp" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[rental_duration]"
+                      dataType="i4"
+                      name="rental_duration" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].ExternalColumns[late_return_flag]"
+                      dataType="i4"
+                      name="late_return_flag" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[rental_id]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[rental_id]"
+                      name="rental_id" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[rental_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[rental_date]"
+                      name="rental_date" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[return_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[return_date]"
+                      name="return_date" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[customer_id]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[customer_id]"
+                      name="customer_id" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[movie_id]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[movie_id]"
+                      name="movie_id" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[store_id]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[store_id]"
+                      name="store_id" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[rental_duration]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[rental_duration]"
+                      name="rental_duration" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[late_return_flag]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[late_return_flag]"
+                      name="late_return_flag" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="TGT_DWH_Rental"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[DWH].[Fact_Rental]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Connections[OleDbConnection]"
+                  connectionManagerID="{1D6B2054-0760-4B93-9442-B96F8EDB6255}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[NEHAL.Movie_Rental]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].Columns[rental_id]"
+                      cachedDataType="i4"
+                      cachedName="rental_id"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[rental_id]"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[rental_id]" />
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].Columns[late_return_flag]"
+                      cachedDataType="i4"
+                      cachedName="late_return_flag"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[late_return_flag]"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[late_return_flag]" />
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].Columns[customer_key]"
+                      cachedDataType="i4"
+                      cachedName="customer_key"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[customer_key]"
+                      lineageId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Outputs[Lookup Match Output].Columns[customer_key]" />
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].Columns[movie_key]"
+                      cachedDataType="i4"
+                      cachedName="movie_key"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[movie_key]"
+                      lineageId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Outputs[Lookup Match Output].Columns[movie_key]" />
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].Columns[store_key]"
+                      cachedDataType="i4"
+                      cachedName="store_key"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[store_key]"
+                      lineageId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Outputs[Lookup Match Output].Columns[store_key]" />
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].Columns[rental_date_key_str]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="rental_date_key_str"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[rental_date_key]"
+                      lineageId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Output].Columns[rental_date_key_str]" />
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].Columns[return_date_key_str]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="return_date_key_str"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[return_date_key]"
+                      lineageId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Output].Columns[return_date_key_str]" />
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].Columns[rental_duration]"
+                      cachedDataType="i4"
+                      cachedName="rental_duration"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[rental_duration_days]"
+                      lineageId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output].Columns[rental_duration]" />
+                    <inputColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].Columns[o_create_timestamp]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="o_create_timestamp"
+                      externalMetadataColumnId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[create_timestamp]"
+                      lineageId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Output].Columns[o_create_timestamp]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[rental_key]"
+                      dataType="i4"
+                      name="rental_key" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[rental_id]"
+                      dataType="i4"
+                      name="rental_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[rental_date_key]"
+                      dataType="i4"
+                      name="rental_date_key" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[return_date_key]"
+                      dataType="i4"
+                      name="return_date_key" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[customer_key]"
+                      dataType="i4"
+                      name="customer_key" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[movie_key]"
+                      dataType="i4"
+                      name="movie_key" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[store_key]"
+                      dataType="i4"
+                      name="store_key" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[rental_duration_days]"
+                      dataType="i4"
+                      name="rental_duration_days" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[late_return_flag]"
+                      dataType="i4"
+                      name="late_return_flag" />
+                    <externalMetadataColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input].ExternalColumns[create_timestamp]"
+                      dataType="dbTimeStamp"
+                      name="create_timestamp" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load_To_Fact_Rental.Paths[Data Conversion Output]"
+              endId="Package\Load_To_Fact_Rental\TGT_DWH_Rental.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Load_To_Fact_Rental\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Load_To_Fact_Rental.Paths[Derived Column Output]"
+              endId="Package\Load_To_Fact_Rental\Data Conversion.Inputs[Data Conversion Input]"
+              name="Derived Column Output"
+              startId="Package\Load_To_Fact_Rental\Add Date.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load_To_Fact_Rental.Paths[Lookup Match Output]"
+              endId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load_To_Fact_Rental.Paths[Lookup Match Output1]"
+              endId="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load_To_Fact_Rental.Paths[Lookup Match Output2]"
+              endId="Package\Load_To_Fact_Rental\Add Date.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\Load_To_Fact_Rental\lkp_Store_DIm.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load_To_Fact_Rental.Paths[OLE DB Source Output]"
+              endId="Package\Load_To_Fact_Rental\Lkp_Customer_DIm.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load_To_Fact_Rental\SRC_STG_Rental.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Stage Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{5a561c95-fd5b-4ec7-bac2-dc0681417003}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Stage Table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1D6B2054-0760-4B93-9442-B96F8EDB6255}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE STG.Rental;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update Conf Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{53980bd0-a690-4f7f-9f34-130bbb461ec6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update Conf Table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1D6B2054-0760-4B93-9442-B96F8EDB6255}"
+          SQLTask:SqlStatementSource="UPDATE STG.etl_watermark&#xA;SET last_extract_date = &#xA;(SELECT MAX(src_update_date) FROM STG.Customer)&#xA;WHERE table_name = 'Rental'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{8ea8e883-e638-4f8b-8765-820a98b7333b}"
+      DTS:From="Package\Truncate Stage Table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Get Last Extract Date" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{B97C4738-F064-4A29-9AD5-5B3B0ACF5A50}"
+      DTS:From="Package\Get Last Extract Date"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load_STG_Rental" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{4421F40B-1063-4E89-8E07-C1C6E7A5E972}"
+      DTS:From="Package\Load_STG_Rental"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Load_To_Fact_Rental" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{2BF15BA6-8EAF-4EBB-90AE-5CA97FD23D2A}"
+      DTS:From="Package\Load_To_Fact_Rental"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Update Conf Table" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177.6,41.6"
+          Id="Package\Get Last Extract Date"
+          TopLeft="330.833318535653,136.266666136317" />
+        <NodeLayout
+          Size="164.8,41.6"
+          Id="Package\Load_STG_Rental"
+          TopLeft="340.833314711022,222.733331784474" />
+        <NodeLayout
+          Size="181.6,41.6"
+          Id="Package\Load_To_Fact_Rental"
+          TopLeft="334.999981696408,320.666664436791" />
+        <NodeLayout
+          Size="186.4,41.6"
+          Id="Package\Truncate Stage Table"
+          TopLeft="328.333318672246,41.8000001265605" />
+        <NodeLayout
+          Size="165.6,41.6"
+          Id="Package\Update Conf Table"
+          TopLeft="340.833317989276,423.133331097431" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="420.58331860395,83.4000001265605">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,52.8666660097568"
+              Start="0,0"
+              End="0,45.3666660097568">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.3666660097568" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="421.433316623337,177.866666136317">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.8666656481562"
+              Start="0,0"
+              End="0,37.3666656481562">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.3666656481562" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="424.516648203715,264.333331784474">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56.3333326523169"
+              Start="0,0"
+              End="0,48.8333326523169">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.8333326523169" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="424.716649842842,362.266664436791">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60.8666666606399"
+              Start="0,0"
+              End="0,53.3666666606399">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,53.3666666606399" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load_STG_Rental">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="140,41.6"
+          Id="Package\Load_STG_Rental\lkp_inventory"
+          TopLeft="253.333319491811,110.066665901277" />
+        <NodeLayout
+          Size="162.4,41.6"
+          Id="Package\Load_STG_Rental\TGT_STG_Rental"
+          TopLeft="502.999972835184,23.3999998372793" />
+        <NodeLayout
+          Size="125.6,41.6"
+          Id="Package\Load_STG_Rental\lkp_movie"
+          TopLeft="266.666652096643,205.066665268474" />
+        <NodeLayout
+          Size="168,41.6"
+          Id="Package\Load_STG_Rental\Calculate Late Flag"
+          TopLeft="503.166639532481,116.133332525757" />
+        <NodeLayout
+          Size="196.8,41.6"
+          Id="Package\Load_STG_Rental\Calculate Rental Duration"
+          TopLeft="491.666639803185,211.733331052992" />
+        <NodeLayout
+          Size="156,41.6"
+          Id="Package\Load_STG_Rental\SRC_DB_Rental"
+          TopLeft="249.999986340603,23.3999998372793" />
+        <EdgeLayout
+          Id="Package\Load_STG_Rental.Paths[OLE DB Source Output]"
+          TopLeft="325.666652916207,64.9999998372793">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45.0666660639973"
+              Start="0,0"
+              End="0,37.5666660639973">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.5666660639973" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load_STG_Rental.Paths[Lookup Match Output1]"
+          TopLeft="392.266652096643,229.199998160733">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="99.399987706542,0"
+              Start="0,0"
+              End="91.899987706542,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="91.899987706542,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-2.24139286547901,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load_STG_Rental.Paths[Lookup Match Output]"
+          TopLeft="326.399985794227,151.666665901277">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53.3999993671968"
+              Start="0,0"
+              End="0,45.8999993671968">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.8999993671968" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,17.1453121835984,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load_STG_Rental.Paths[Derived Column Output1]"
+          TopLeft="585.683306183832,116.133332525757">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-51.1333326884777"
+              Start="0,0"
+              End="0,-43.6333326884777">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-43.6333326884777" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load_STG_Rental.Paths[Derived Column Output]"
+          TopLeft="588.616639667833,211.733331052992">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-53.999998527235"
+              Start="0,0"
+              End="0,-46.499998527235">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-46.499998527235" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load_STG_Rental\lkp_inventory">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[inventory]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load_STG_Rental\TGT_STG_Rental">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load_STG_Rental\lkp_movie">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[film]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load_To_Fact_Rental">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="184,41.6"
+          Id="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm"
+          TopLeft="95.1523856419902,235.047618656763" />
+        <NodeLayout
+          Size="147.2,41.6"
+          Id="Package\Load_To_Fact_Rental\lkp_Store_DIm"
+          TopLeft="399.914286293065,237.676192303915" />
+        <NodeLayout
+          Size="165.6,41.6"
+          Id="Package\Load_To_Fact_Rental\TGT_DWH_Rental"
+          TopLeft="668.166659723553,37.7999991887808" />
+        <NodeLayout
+          Size="170.4,41.6"
+          Id="Package\Load_To_Fact_Rental\Lkp_Customer_DIm"
+          TopLeft="101.36667149547,133.633331094086" />
+        <NodeLayout
+          Size="163.2,41.6"
+          Id="Package\Load_To_Fact_Rental\SRC_STG_Rental"
+          TopLeft="109.833334710034,34.4666659051179" />
+        <NodeLayout
+          Size="121.6,41.6"
+          Id="Package\Load_To_Fact_Rental\Add Date"
+          TopLeft="409.166663582954,137.799997698665" />
+        <NodeLayout
+          Size="156,41.6"
+          Id="Package\Load_To_Fact_Rental\Data Conversion"
+          TopLeft="385.166663940582,31.7999992781878" />
+        <EdgeLayout
+          Id="Package\Load_To_Fact_Rental.Paths[Derived Column Output]"
+          TopLeft="466.566663761768,137.799997698665">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-64.3999984204771"
+              Start="0,0"
+              End="0,-56.8999984204771">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-56.8999984204771" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load_To_Fact_Rental.Paths[Data Conversion Output]"
+          TopLeft="541.166663940583,55.5999992334843">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="126.999995782971,0"
+              Start="0,0"
+              End="119.499995782971,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="119.499995782971,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load_To_Fact_Rental.Paths[OLE DB Source Output]"
+          TopLeft="189.000003102752,76.0666659051179">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57.5666651889682"
+              Start="0,0"
+              End="0,50.0666651889682">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.0666651889682" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load_To_Fact_Rental.Paths[Lookup Match Output2]"
+          TopLeft="471.74047493801,237.676192303915">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-58.2761946052502"
+              Start="0,0"
+              End="0,-50.7761946052502">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-50.7761946052502" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,-31.1927848026251,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load_To_Fact_Rental.Paths[Lookup Match Output1]"
+          TopLeft="186.85952856873,175.233331094086">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.8142875626771"
+              Start="0,0"
+              End="0,52.3142875626771">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.3142875626771" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,20.3524562813386,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load_To_Fact_Rental.Paths[Lookup Match Output]"
+          TopLeft="279.15238564199,257.161905480339">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="120.761900651076,0"
+              Start="0,0"
+              End="113.261900651076,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="113.261900651076,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="8.43956360678801,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load_To_Fact_Rental\lkpLookup_Movie_DIm">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[DWH].[D_Movie]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load_To_Fact_Rental\lkp_Store_DIm">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[DWH].[D_Store]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load_To_Fact_Rental\TGT_DWH_Rental">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load_To_Fact_Rental\Lkp_Customer_DIm">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[DWH].[D_Customer]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load_To_Fact_Rental\SRC_STG_Rental">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

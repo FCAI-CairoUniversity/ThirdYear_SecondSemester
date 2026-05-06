@@ -1,0 +1,12 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="NEHAL.Movie_Rental"
+  DTS:DTSID="{1D6B2054-0760-4B93-9442-B96F8EDB6255}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=NEHAL;Initial Catalog=Movie_Rental;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Movie Rental-{1D6B2054-0760-4B93-9442-B96F8EDB6255}NEHAL.Movie_Rental;Auto Translate=False;" />
+  </DTS:ObjectData>
+</DTS:ConnectionManager>
