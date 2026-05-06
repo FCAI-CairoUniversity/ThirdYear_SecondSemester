@@ -1,0 +1,12 @@
+composer require --dev laravel/dusk
+php artisan dusk:install
+if errors try
+php artisan dusk:install --ssl-no-verify
+
+php artisan dusk
+change the version if version mismatch error
+php artisan dusk:chrome-driver 147 --ssl-no-verify
+
+php artisan dusk
+
+if errors check test\Browser\ExampleTest.php

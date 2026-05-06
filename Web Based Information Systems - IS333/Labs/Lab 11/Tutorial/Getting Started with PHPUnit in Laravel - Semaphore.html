@@ -1,0 +1,2168 @@
+<!DOCTYPE html>
+<!-- saved from url=(0080)https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel -->
+<html lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./Getting Started with PHPUnit in Laravel - Semaphore_files/css2" rel="stylesheet">
+
+<link rel="apple-touch-icon" sizes="180x180" href="https://semaphore.io//apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://semaphore.io//favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://semaphore.io//favicon-16x16.png">
+<link rel="manifest" href="https://semaphore.io//site.webmanifest">
+
+
+<!-- Google Tag Manager -->
+<script async="" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/gtm.js.download"></script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MGJS97C');</script>
+<!-- End Google Tag Manager -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script type="text/plain" data-cookiecategory="analytics" async="" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YT4RYY5VVM');
+
+  var url = window.location.pathname
+const event_name = "visited" + url.replace(/\//ig, '_')
+gtag('event', (event_name == "visited_") ? "visited_homepage" : event_name);
+</script>
+
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	
+	<!-- This site is optimized with the Yoast SEO plugin v25.0 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Getting Started with PHPUnit in Laravel - Semaphore</title>
+	<meta name="description" content="This is an introduction to the basics of PHPUnit testing, using the basic PHPUnit assertions and the Laravel test helpers.">
+	<link rel="canonical" href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Getting Started with PHPUnit in Laravel - Semaphore">
+	<meta property="og:description" content="This is an introduction to the basics of PHPUnit testing, using the basic PHPUnit assertions and the Laravel test helpers.">
+	<meta property="og:url" content="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel">
+	<meta property="og:site_name" content="Semaphore">
+	<meta property="article:publisher" content="https://www.facebook.com/SemaphoreCI/">
+	<meta property="article:published_time" content="2020-02-18T13:42:00+00:00">
+	<meta property="article:modified_time" content="2022-07-15T12:32:55+00:00">
+	<meta property="og:image" content="https://semaphore.io/wp-content/uploads/2016/01/Group-4594.jpg">
+	<meta property="og:image:width" content="1104">
+	<meta property="og:image:height" content="624">
+	<meta property="og:image:type" content="image/jpeg">
+	<meta name="author" content="Stephen Rees-Carter">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:description" content="This is an introduction to the basics of PHPUnit testing, using the basic PHPUnit assertions and the Laravel test helpers.">
+	<meta name="twitter:creator" content="@semaphoreci">
+	<meta name="twitter:site" content="@semaphoreci">
+	<meta name="twitter:label1" content="Written by">
+	<meta name="twitter:data1" content="Stephen Rees-Carter">
+	<meta name="twitter:label2" content="Est. reading time">
+	<meta name="twitter:data2" content="20 minutes">
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#article","isPartOf":{"@id":"https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel"},"author":[{"@id":"https://semaphore.io/#/schema/person/be83028f9480a84f3aebc749ff886c1d"}],"headline":"Getting Started with PHPUnit in Laravel","datePublished":"2020-02-18T13:42:00+00:00","dateModified":"2022-07-15T12:32:55+00:00","mainEntityOfPage":{"@id":"https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel"},"wordCount":3032,"commentCount":0,"publisher":{"@id":"https://semaphore.io/#organization"},"image":{"@id":"https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#primaryimage"},"thumbnailUrl":"https://semaphore.io/wp-content/uploads/2016/01/Group-4594.jpg","articleSection":["Software Engineering"],"inLanguage":"en-US","potentialAction":[{"@type":"CommentAction","name":"Comment","target":["https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#respond"]}]},{"@type":"WebPage","@id":"https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel","url":"https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel","name":"Getting Started with PHPUnit in Laravel - Semaphore","isPartOf":{"@id":"https://semaphore.io/#website"},"primaryImageOfPage":{"@id":"https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#primaryimage"},"image":{"@id":"https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#primaryimage"},"thumbnailUrl":"https://semaphore.io/wp-content/uploads/2016/01/Group-4594.jpg","datePublished":"2020-02-18T13:42:00+00:00","dateModified":"2022-07-15T12:32:55+00:00","description":"This is an introduction to the basics of PHPUnit testing, using the basic PHPUnit assertions and the Laravel test helpers.","breadcrumb":{"@id":"https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel"]}]},{"@type":"ImageObject","inLanguage":"en-US","@id":"https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#primaryimage","url":"https://semaphore.io/wp-content/uploads/2016/01/Group-4594.jpg","contentUrl":"https://semaphore.io/wp-content/uploads/2016/01/Group-4594.jpg","width":1104,"height":624,"caption":"Getting Started with PHPUnit in Laravel"},{"@type":"BreadcrumbList","@id":"https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://semaphore.io/"},{"@type":"ListItem","position":2,"name":"Getting Started with PHPUnit in Laravel"}]},{"@type":"WebSite","@id":"https://semaphore.io/#website","url":"https://semaphore.io/","name":"Semaphore","description":"The best CI/CD tool for high-performance engineering teams.","publisher":{"@id":"https://semaphore.io/#organization"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://semaphore.io/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"en-US"},{"@type":"Organization","@id":"https://semaphore.io/#organization","name":"Semaphore","url":"https://semaphore.io/","logo":{"@type":"ImageObject","inLanguage":"en-US","@id":"https://semaphore.io/#/schema/logo/image/","url":"https://semaphore.io/wp-content/uploads/2024/03/logo-semaphore.svg","contentUrl":"https://semaphore.io/wp-content/uploads/2024/03/logo-semaphore.svg","width":164,"height":23,"caption":"Semaphore"},"image":{"@id":"https://semaphore.io/#/schema/logo/image/"},"sameAs":["https://www.facebook.com/SemaphoreCI/","https://x.com/semaphoreci","https://www.linkedin.com/company/rendered-text/","https://www.youtube.com/c/SemaphoreCI"]},{"@type":"Person","@id":"https://semaphore.io/#/schema/person/be83028f9480a84f3aebc749ff886c1d","name":"Stephen Rees-Carter","image":{"@type":"ImageObject","inLanguage":"en-US","@id":"https://semaphore.io/#/schema/person/image/aebad1057b96beefdf3e672cb8296f26","url":"https://secure.gravatar.com/avatar/5372b150c75da0d8b4b705c6746153f4a0b93b87f1a1fedf494f1345f7cf5ff2?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/5372b150c75da0d8b4b705c6746153f4a0b93b87f1a1fedf494f1345f7cf5ff2?s=96&d=mm&r=g","caption":"Stephen Rees-Carter"},"description":"Senior PHP developer, specialising in Laravel and the extended ecosystem around elegant web applications. Located in Australia and online at stephen.rees-carter.net.","url":"https://semaphore.io/author/stephenreescarter"}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="alternate" type="application/rss+xml" title="Semaphore » Feed" href="https://semaphore.io/feed">
+<link rel="alternate" type="application/rss+xml" title="Semaphore » Comments Feed" href="https://semaphore.io/comments/feed">
+<link rel="alternate" type="application/rss+xml" title="Semaphore » Getting Started with PHPUnit in Laravel Comments Feed" href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel/feed">
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel="stylesheet" id="wp-block-library-css" href="./Getting Started with PHPUnit in Laravel - Semaphore_files/style.min.css" media="all">
+<style id="co-authors-plus-coauthors-style-inline-css">
+.wp-block-co-authors-plus-coauthors.is-layout-flow [class*=wp-block-co-authors-plus]{display:inline}
+
+</style>
+<style id="co-authors-plus-avatar-style-inline-css">
+.wp-block-co-authors-plus-avatar :where(img){height:auto;max-width:100%;vertical-align:bottom}.wp-block-co-authors-plus-coauthors.is-layout-flow .wp-block-co-authors-plus-avatar :where(img){vertical-align:middle}.wp-block-co-authors-plus-avatar:is(.alignleft,.alignright){display:table}.wp-block-co-authors-plus-avatar.aligncenter{display:table;margin-inline:auto}
+
+</style>
+<style id="co-authors-plus-image-style-inline-css">
+.wp-block-co-authors-plus-image{margin-bottom:0}.wp-block-co-authors-plus-image :where(img){height:auto;max-width:100%;vertical-align:bottom}.wp-block-co-authors-plus-coauthors.is-layout-flow .wp-block-co-authors-plus-image :where(img){vertical-align:middle}.wp-block-co-authors-plus-image:is(.alignfull,.alignwide) :where(img){width:100%}.wp-block-co-authors-plus-image:is(.alignleft,.alignright){display:table}.wp-block-co-authors-plus-image.aligncenter{display:table;margin-inline:auto}
+
+</style>
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--v-8-white: #FFFFFF;--wp--preset--color--v-8-black: #0D1421;--wp--preset--color--v-8-gray: #677278;--wp--preset--color--v-8-green: #00A569;--wp--preset--color--v-8-yellow: #FFD517;--wp--preset--color--v-8-purple: #A74DC3;--wp--preset--color--v-8-light-yellow: #F7F3EC;--wp--preset--color--v-8-blue: #538BFA;--wp--preset--color--v-8-light-gray: #F6F8F9;--wp--preset--color--v-8-stroke: #D2D4D6;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--font-size--font-down-4: var(--font-down-4);--wp--preset--font-size--font-down-3: var(--font-down-3);--wp--preset--font-size--font-down-2: var(--font-down-2);--wp--preset--font-size--font-down-1: var(--font-down-1);--wp--preset--font-size--font-root: var(--font-root);--wp--preset--font-size--font-up-2: var(--font-up-2);--wp--preset--font-size--font-up-4: var(--font-up-4);--wp--preset--font-size--font-up-6: var(--font-up-6);--wp--preset--font-size--font-up-9: var(--font-up-9);--wp--preset--font-size--font-up-11: var(--font-up-11);--wp--preset--font-size--font-up-13: var(--font-up-13);--wp--preset--font-size--font-up-15: var(--font-up-15);--wp--preset--font-family--inter: 'Inter', sans-serif;--wp--preset--font-family--jetbrains: 'JetBrains Mono', monospace;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:root { --wp--style--global--content-size: 1580px;--wp--style--global--wide-size: 1920px; }:where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.wp-site-blocks) > * { margin-block-start: 24px; margin-block-end: 0; }:where(.wp-site-blocks) > :first-child { margin-block-start: 0; }:where(.wp-site-blocks) > :last-child { margin-block-end: 0; }:root { --wp--style--block-gap: 24px; }:root :where(.is-layout-flow) > :first-child{margin-block-start: 0;}:root :where(.is-layout-flow) > :last-child{margin-block-end: 0;}:root :where(.is-layout-flow) > *{margin-block-start: 24px;margin-block-end: 0;}:root :where(.is-layout-constrained) > :first-child{margin-block-start: 0;}:root :where(.is-layout-constrained) > :last-child{margin-block-end: 0;}:root :where(.is-layout-constrained) > *{margin-block-start: 24px;margin-block-end: 0;}:root :where(.is-layout-flex){gap: 24px;}:root :where(.is-layout-grid){gap: 24px;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}a:where(:not(.wp-element-button)){text-decoration: underline;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;line-height: inherit;padding: calc(0.667em + 2px) calc(1.333em + 2px);text-decoration: none;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-v-8-white-color{color: var(--wp--preset--color--v-8-white) !important;}.has-v-8-black-color{color: var(--wp--preset--color--v-8-black) !important;}.has-v-8-gray-color{color: var(--wp--preset--color--v-8-gray) !important;}.has-v-8-green-color{color: var(--wp--preset--color--v-8-green) !important;}.has-v-8-yellow-color{color: var(--wp--preset--color--v-8-yellow) !important;}.has-v-8-purple-color{color: var(--wp--preset--color--v-8-purple) !important;}.has-v-8-light-yellow-color{color: var(--wp--preset--color--v-8-light-yellow) !important;}.has-v-8-blue-color{color: var(--wp--preset--color--v-8-blue) !important;}.has-v-8-light-gray-color{color: var(--wp--preset--color--v-8-light-gray) !important;}.has-v-8-stroke-color{color: var(--wp--preset--color--v-8-stroke) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-v-8-white-background-color{background-color: var(--wp--preset--color--v-8-white) !important;}.has-v-8-black-background-color{background-color: var(--wp--preset--color--v-8-black) !important;}.has-v-8-gray-background-color{background-color: var(--wp--preset--color--v-8-gray) !important;}.has-v-8-green-background-color{background-color: var(--wp--preset--color--v-8-green) !important;}.has-v-8-yellow-background-color{background-color: var(--wp--preset--color--v-8-yellow) !important;}.has-v-8-purple-background-color{background-color: var(--wp--preset--color--v-8-purple) !important;}.has-v-8-light-yellow-background-color{background-color: var(--wp--preset--color--v-8-light-yellow) !important;}.has-v-8-blue-background-color{background-color: var(--wp--preset--color--v-8-blue) !important;}.has-v-8-light-gray-background-color{background-color: var(--wp--preset--color--v-8-light-gray) !important;}.has-v-8-stroke-background-color{background-color: var(--wp--preset--color--v-8-stroke) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-v-8-white-border-color{border-color: var(--wp--preset--color--v-8-white) !important;}.has-v-8-black-border-color{border-color: var(--wp--preset--color--v-8-black) !important;}.has-v-8-gray-border-color{border-color: var(--wp--preset--color--v-8-gray) !important;}.has-v-8-green-border-color{border-color: var(--wp--preset--color--v-8-green) !important;}.has-v-8-yellow-border-color{border-color: var(--wp--preset--color--v-8-yellow) !important;}.has-v-8-purple-border-color{border-color: var(--wp--preset--color--v-8-purple) !important;}.has-v-8-light-yellow-border-color{border-color: var(--wp--preset--color--v-8-light-yellow) !important;}.has-v-8-blue-border-color{border-color: var(--wp--preset--color--v-8-blue) !important;}.has-v-8-light-gray-border-color{border-color: var(--wp--preset--color--v-8-light-gray) !important;}.has-v-8-stroke-border-color{border-color: var(--wp--preset--color--v-8-stroke) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}.has-font-down-4-font-size{font-size: var(--wp--preset--font-size--font-down-4) !important;}.has-font-down-3-font-size{font-size: var(--wp--preset--font-size--font-down-3) !important;}.has-font-down-2-font-size{font-size: var(--wp--preset--font-size--font-down-2) !important;}.has-font-down-1-font-size{font-size: var(--wp--preset--font-size--font-down-1) !important;}.has-font-root-font-size{font-size: var(--wp--preset--font-size--font-root) !important;}.has-font-up-2-font-size{font-size: var(--wp--preset--font-size--font-up-2) !important;}.has-font-up-4-font-size{font-size: var(--wp--preset--font-size--font-up-4) !important;}.has-font-up-6-font-size{font-size: var(--wp--preset--font-size--font-up-6) !important;}.has-font-up-9-font-size{font-size: var(--wp--preset--font-size--font-up-9) !important;}.has-font-up-11-font-size{font-size: var(--wp--preset--font-size--font-up-11) !important;}.has-font-up-13-font-size{font-size: var(--wp--preset--font-size--font-up-13) !important;}.has-font-up-15-font-size{font-size: var(--wp--preset--font-size--font-up-15) !important;}.has-inter-font-family{font-family: var(--wp--preset--font-family--inter) !important;}.has-jetbrains-font-family{font-family: var(--wp--preset--font-family--jetbrains) !important;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel="stylesheet" id="contact-form-7-css" href="./Getting Started with PHPUnit in Laravel - Semaphore_files/styles.css" media="all">
+<link rel="stylesheet" id="wpcf7-redirect-script-frontend-css" href="./Getting Started with PHPUnit in Laravel - Semaphore_files/frontend-script.css" media="all">
+<link rel="stylesheet" id="semaphoreci_v8-style-css" href="./Getting Started with PHPUnit in Laravel - Semaphore_files/style.css" media="all">
+<style id="akismet-widget-style-inline-css">
+
+			.a-stats {
+				--akismet-color-mid-green: #357b49;
+				--akismet-color-white: #fff;
+				--akismet-color-light-grey: #f6f7f7;
+
+				max-width: 350px;
+				width: auto;
+			}
+
+			.a-stats * {
+				all: unset;
+				box-sizing: border-box;
+			}
+
+			.a-stats strong {
+				font-weight: 600;
+			}
+
+			.a-stats a.a-stats__link,
+			.a-stats a.a-stats__link:visited,
+			.a-stats a.a-stats__link:active {
+				background: var(--akismet-color-mid-green);
+				border: none;
+				box-shadow: none;
+				border-radius: 8px;
+				color: var(--akismet-color-white);
+				cursor: pointer;
+				display: block;
+				font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;
+				font-weight: 500;
+				padding: 12px;
+				text-align: center;
+				text-decoration: none;
+				transition: all 0.2s ease;
+			}
+
+			/* Extra specificity to deal with TwentyTwentyOne focus style */
+			.widget .a-stats a.a-stats__link:focus {
+				background: var(--akismet-color-mid-green);
+				color: var(--akismet-color-white);
+				text-decoration: none;
+			}
+
+			.a-stats a.a-stats__link:hover {
+				filter: brightness(110%);
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 0 2px rgba(0, 0, 0, 0.16);
+			}
+
+			.a-stats .count {
+				color: var(--akismet-color-white);
+				display: block;
+				font-size: 1.5em;
+				line-height: 1.4;
+				padding: 0 13px;
+				white-space: nowrap;
+			}
+		
+</style>
+<link rel="stylesheet" id="tablepress-default-css" href="./Getting Started with PHPUnit in Laravel - Semaphore_files/tablepress-combined.min.css" media="all">
+<script id="bodhi_svg_inline-js-extra">
+var svgSettings = {"skipNested":""};
+</script>
+<script src="./Getting Started with PHPUnit in Laravel - Semaphore_files/svgs-inline-vanilla-min.js.download" id="bodhi_svg_inline-js"></script>
+<script id="bodhi_svg_inline-js-after">
+cssTarget={"Bodhi":"img.style-svg","ForceInlineSVG":"style-svg"};ForceInlineSVGActive="false";frontSanitizationEnabled=false;
+</script>
+<script src="./Getting Started with PHPUnit in Laravel - Semaphore_files/jquery.min.js.download" id="jquery-core-js"></script>
+<script src="./Getting Started with PHPUnit in Laravel - Semaphore_files/jquery-migrate.min.js.download" id="jquery-migrate-js"></script>
+<link rel="https://api.w.org/" href="https://semaphore.io/wp-json/"><link rel="alternate" title="JSON" type="application/json" href="https://semaphore.io/wp-json/wp/v2/posts/10639"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://semaphore.io/xmlrpc.php?rsd">
+<meta name="generator" content="WordPress 6.8">
+<link rel="shortlink" href="https://semaphore.io/?p=10639">
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://semaphore.io/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fsemaphore.io%2Fcommunity%2Ftutorials%2Fgetting-started-with-phpunit-in-laravel">
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://semaphore.io/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fsemaphore.io%2Fcommunity%2Ftutorials%2Fgetting-started-with-phpunit-in-laravel&amp;format=xml">
+<link rel="pingback" href="https://semaphore.io/xmlrpc.php"><link rel="icon" href="https://semaphore.io/wp-content/uploads/2022/07/cropped-semaphore_logo2-32x32.png" sizes="32x32">
+<link rel="icon" href="https://semaphore.io/wp-content/uploads/2022/07/cropped-semaphore_logo2-192x192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="https://semaphore.io/wp-content/uploads/2022/07/cropped-semaphore_logo2-180x180.png">
+<meta name="msapplication-TileImage" content="https://semaphore.io/wp-content/uploads/2022/07/cropped-semaphore_logo2-270x270.png">
+</head>
+
+<body class="wp-singular post-template-default single single-post postid-10639 single-format-standard wp-embed-responsive wp-theme-semaphoreci_v8 no-sidebar">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MGJS97C"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!--  End Google Tag Manager (noscript) -->
+
+<div id="page" class="site blog-page">
+
+	<header id="masthead" class="site-header blog-header announcement nav-down transparent">
+		<div id="announcement-area-desk" class="announcement-area ">
+<section id="block-40" class="widget widget_block widget_text">
+<p class="has-v-8-white-color has-text-color has-link-color has-font-down-3-font-size wp-elements-8c60bddab5865fb318bf6e2db2f4e609">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</p>
+</section><section id="block-41" class="widget widget_block widget_text"></section><section id="block-42" class="widget widget_block widget_text"></section></div>
+		<div class="wrap">
+<!-- header for website -->
+		<div class="site-branding">
+		<p class="site-title"><a href="https://semaphore.io/" rel="home">Semaphore</a></p>
+		</div><!-- .site-branding -->
+
+		<nav id="site-navigation" class="top-navigation">
+			<div class="top-menu-semaphore"><ul id="primary-menu" class="menu"><li id="menu-item-23220" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-23220"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Docs</a>
+<div class="sub-menu-wrap">
+<ul class="sub-menu">
+	<li id="menu-item-25954" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25954"><a href="https://docs.semaphoreci.com/">Cloud Docs</a></li>
+	<li id="menu-item-25955" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25955"><a href="https://docs.semaphoreci.com/CE/getting-started/install">Community Edition Docs</a></li>
+</ul></div>
+</li>
+<li id="menu-item-25828" class="side menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-25828"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Product</a>
+<div class="sub-menu-wrap">
+<ul class="sub-menu">
+	<li id="menu-item-23207" class="title menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-23207"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Features</a>
+	<ul class="sub-menu">
+		<li id="menu-item-23208" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23208"><a href="https://semaphore.io/product/continuous-integration-and-pipelines">🔄 Continuous Integration &amp; Pipelines</a></li>
+		<li id="menu-item-23209" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23209"><a href="https://semaphore.io/product/deployments-and-automation">🦾 Deployments &amp; Automation</a></li>
+		<li id="menu-item-23210" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23210"><a href="https://semaphore.io/product/metrics-and-observability">📈 Metrics &amp; Observability</a></li>
+		<li id="menu-item-23211" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23211"><a href="https://semaphore.io/product/security-and-compliance">🔐 Security &amp; Compliance</a></li>
+		<li id="menu-item-23212" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23212"><a href="https://semaphore.io/product/developer-toolkit">🧰 Developer Toolkit</a></li>
+		<li id="menu-item-24172" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-24172"><a href="https://semaphore.io/product/test-reports">📊 Test reports</a></li>
+		<li id="menu-item-24174" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-24174"><a href="https://semaphore.io/product/monorepos">📁 Monorepos</a></li>
+		<li id="menu-item-24175" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-24175"><a href="https://semaphore.io/product/self-hosted-agents">🖥️ Self-hosted agents</a></li>
+		<li id="menu-item-26361" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26361"><a href="https://semaphore.io/product/canvas">🎨 Semaphore Canvas</a></li>
+	</ul>
+</li>
+	<li id="menu-item-23223" class="title menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-23223"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Use Cases</a>
+	<ul class="sub-menu">
+		<li id="menu-item-23224" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23224"><a href="https://semaphore.io/product/ios">iOS</a></li>
+		<li id="menu-item-23225" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23225"><a href="https://semaphore.io/product/docker">Docker &amp; Kubernetes</a></li>
+		<li id="menu-item-23226" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23226"><a href="https://semaphore.io/product/android">Android</a></li>
+	</ul>
+</li>
+	<li id="menu-item-23241" class="title menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-23241"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Compare</a>
+	<ul class="sub-menu">
+		<li id="menu-item-23243" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23243"><a href="https://semaphore.io/resources/semaphore-vs-jenkins">vs Jenkins</a></li>
+		<li id="menu-item-23245" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23245"><a href="https://semaphore.io/resources/semaphore-vs-github-actions">vs GitHub Actions</a></li>
+		<li id="menu-item-23242" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23242"><a href="https://semaphore.io/resources/semaphoreci-vs-travisci">vs Travis CI</a></li>
+		<li id="menu-item-23247" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23247"><a href="https://semaphore.io/resources/semaphoreci-vs-bitbucket-pipelines">vs Bitbucket</a></li>
+	</ul>
+</li>
+</ul></div>
+</li>
+<li id="menu-item-26133" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-26133"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Deployment options</a>
+<div class="sub-menu-wrap">
+<ul class="sub-menu">
+	<li id="menu-item-26135" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-26135"><a href="https://docs.semaphoreci.com/CE/getting-started/install">Open source</a></li>
+	<li id="menu-item-26344" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26344"><a href="https://semaphore.io/cloud">Cloud</a></li>
+	<li id="menu-item-26134" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26134"><a href="https://semaphore.io/hybrid">Hybrid</a></li>
+	<li id="menu-item-26343" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26343"><a href="https://semaphore.io/enterprise">Enterprise</a></li>
+</ul></div>
+</li>
+<li id="menu-item-26199" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-26199"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">CI/CD</a>
+<div class="sub-menu-wrap">
+<ul class="sub-menu">
+	<li id="menu-item-23231" class="title menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-23231"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Discover</a>
+	<ul class="sub-menu">
+		<li id="menu-item-23232" class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-23232"><a href="https://semaphore.io/blog">📝 Blog</a></li>
+		<li id="menu-item-23233" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23233"><a href="https://semaphore.io/podcast">🎙️ Podcast</a></li>
+		<li id="menu-item-23230" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23230"><a href="https://semaphore.io/resources">📚 Resources</a></li>
+		<li id="menu-item-23987" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-23987"><a href="https://semaphore.io/cicd-learning-hub">🎓 CI/CD Learning tool</a></li>
+		<li id="menu-item-23235" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23235"><a href="https://semaphore.io/newsletter">📨 Newsletter</a></li>
+	</ul>
+</li>
+</ul></div>
+</li>
+<li id="menu-item-25829" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-25829"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Community</a>
+<div class="sub-menu-wrap">
+<ul class="sub-menu">
+	<li id="menu-item-23219" class="title menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-23219"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Connect</a>
+	<ul class="sub-menu">
+		<li id="menu-item-25830" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25830"><a target="_blank" href="https://www.youtube.com/c/SemaphoreCI">🎥 Youtube ↗</a></li>
+		<li id="menu-item-26118" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-26118"><a target="_blank" href="https://www.youtube.com/channel/UCvSxFNaUePVWumN9lsj2TMQ">🎥 Semaphore Backstage ↗</a></li>
+		<li id="menu-item-26124" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-26124"><a href="https://youtube.com/live/CrpkLZg9FDc?feature=share">🎥 Release Roundups ↗</a></li>
+		<li id="menu-item-25831" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25831"><a target="_blank" href="https://discord.gg/FBuUrV24NH">💬 Discord ↗</a></li>
+		<li id="menu-item-25832" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25832"><a target="_blank" href="https://github.com/semaphoreio">🐙 GitHub ↗</a></li>
+	</ul>
+</li>
+</ul></div>
+</li>
+</ul></div>		</nav><!-- #site-navigation -->
+
+
+		<div class="loginandsignup">
+<div class="github">
+    <div class="github-star-count">
+		<a class="repo" target="_blank" href="https://github.com/semaphoreio/semaphore/"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6.97846 0C5.10528 0.0238765 3.31817 0.791925 2.00976 2.1354C0.701349 3.47888 -0.0213357 5.2879 0.000479939 7.165C-0.00507392 8.65342 0.448463 10.1072 1.29903 11.3274C2.1496 12.5476 3.35565 13.4747 4.75215 13.9817C4.80682 13.9978 4.86447 14.001 4.92056 13.9909C4.97665 13.9809 5.02964 13.9579 5.07533 13.9238C5.12103 13.8897 5.15819 13.8454 5.18388 13.7944C5.20956 13.7434 5.22307 13.6872 5.22333 13.6301V12.4014C3.29608 12.8409 2.86876 11.4338 2.86876 11.4338C2.75257 10.9981 2.47778 10.6217 2.09853 10.3789C1.45655 9.93937 2.14106 9.93937 2.14106 9.93937C2.36418 9.97497 2.57636 10.0607 2.76167 10.1903C2.94698 10.3198 3.10061 10.4897 3.21102 10.6872C3.30015 10.8626 3.42362 11.0181 3.57406 11.1446C3.72451 11.2711 3.89883 11.3659 4.08664 11.4234C4.27445 11.4809 4.4719 11.4999 4.66719 11.4793C4.86249 11.4586 5.05163 11.3987 5.22333 11.3032C5.24802 10.9403 5.39956 10.5977 5.65132 10.3356C4.11018 10.1618 2.48331 9.54313 2.48331 6.77209C2.46636 6.05595 2.72749 5.36117 3.21168 4.83416C3.01916 4.22921 3.04863 3.57524 3.29475 2.99014C3.29475 2.99014 3.89286 2.81432 5.222 3.738C5.79253 3.57593 6.38435 3.50183 6.97713 3.51824C7.56866 3.52366 8.15759 3.5974 8.73226 3.738C10.0614 2.81432 10.6595 2.99014 10.6595 2.99014C10.9049 3.5918 10.9352 4.25996 10.7452 4.88145C11.2194 5.41372 11.4799 6.10322 11.4763 6.81671C11.4763 9.58708 9.8494 10.1591 8.30826 10.3349C8.47573 10.5087 8.60436 10.7163 8.6856 10.9437C8.76684 11.1712 8.79883 11.4134 8.77944 11.6542V13.6334C8.77971 13.6905 8.79321 13.7468 8.8189 13.7977C8.84458 13.8487 8.88174 13.893 8.92744 13.9271C8.97314 13.9612 9.02613 13.9842 9.08222 13.9942C9.13831 14.0043 9.19596 14.0011 9.25062 13.985C10.6519 13.4847 11.8626 12.5588 12.7138 11.3363C13.5651 10.1138 14.0146 8.65562 13.9996 7.165C14.0046 5.2855 13.2705 3.47969 11.9564 2.13863C10.6422 0.797582 8.85384 0.0292405 6.97846 0Z" fill="#0D1421"></path></svg>Star
+</a>
+<a class="count" target="_blank" href="https://github.com/semaphoreio/semaphore/stargazers"><div class="github-star-counter">1037</div></a>
+    </div>
+
+</div>
+
+		<div class="top-right"><ul id="top-right" class="menu"><li id="menu-item-23204" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-23204"><a href="https://id.semaphoreci.com/login">Login</a></li>
+<li id="menu-item-23203" class="button-b menu-item menu-item-type-custom menu-item-object-custom menu-item-23203"><a href="https://id.semaphoreci.com/signup">Get started</a></li>
+</ul></div>			<div id="widget_polylang">
+<div class="wp-block-group widget_polylang is-layout-constrained wp-block-group-is-layout-constrained"><select name="lang_choice_1" id="lang_choice_1" class="pll-switcher-select">
+	<option value="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel" lang="en-US" selected="selected" data-lang="{&quot;id&quot;:0,&quot;name&quot;:&quot;en&quot;,&quot;slug&quot;:&quot;en&quot;,&quot;dir&quot;:0}">en</option>
+
+</select>
+<script>
+					document.getElementById( "lang_choice_1" ).addEventListener( "change", function ( event ) { location.href = event.currentTarget.value; } )
+				</script></div>
+</div>		</div><!-- .loginandsignup -->
+		</div>		
+	</header><!-- #masthead -->
+
+	<!-- header for blog -->
+<div class="blog-nav announcement nav-down transparent">
+<div class="wrap">
+		<nav id="site-navigation-blog" class="navigation-blog">
+			<div class="mobile-trigger">Categories</div>
+			<div class="top-menu-semaphore"><ul id="Blog-menu" class="menu"><li id="menu-item-23760" class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-23760"><a href="https://semaphore.io/blog">All posts</a></li>
+<li id="menu-item-10860" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-10860"><a href="https://semaphore.io/category/engineering">Software Engineering</a></li>
+<li id="menu-item-10859" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-10859"><a href="https://semaphore.io/category/semaphore-news">Product News</a></li>
+</ul></div>		</nav><!-- #site-navigation -->
+<div class="headerlinks blog">
+<div id="open-search" class="search"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16.6 18L10.3 11.7C9.8 12.1 9.225 12.4167 8.575 12.65C7.925 12.8833 7.23333 13 6.5 13C4.68333 13 3.14583 12.3708 1.8875 11.1125C0.629167 9.85417 0 8.31667 0 6.5C0 4.68333 0.629167 3.14583 1.8875 1.8875C3.14583 0.629167 4.68333 0 6.5 0C8.31667 0 9.85417 0.629167 11.1125 1.8875C12.3708 3.14583 13 4.68333 13 6.5C13 7.23333 12.8833 7.925 12.65 8.575C12.4167 9.225 12.1 9.8 11.7 10.3L18 16.6L16.6 18ZM6.5 11C7.75 11 8.8125 10.5625 9.6875 9.6875C10.5625 8.8125 11 7.75 11 6.5C11 5.25 10.5625 4.1875 9.6875 3.3125C8.8125 2.4375 7.75 2 6.5 2C5.25 2 4.1875 2.4375 3.3125 3.3125C2.4375 4.1875 2 5.25 2 6.5C2 7.75 2.4375 8.8125 3.3125 9.6875C4.1875 10.5625 5.25 11 6.5 11Z" fill="#0D1421"></path>
+</svg>
+
+</div>
+<a href="https://semaphore.io/feed" class="rss"><svg xmlns="http://www.w3.org/2000/svg" width="14.912" height="14.913" viewBox="0 0 14.912 14.913"><path d="M4.041,12.894a2.02,2.02,0,1,1-2.02-2.018A2.019,2.019,0,0,1,4.041,12.894ZM0,5.083V8.072a6.925,6.925,0,0,1,6.849,6.841H9.842A9.907,9.907,0,0,0,0,5.083ZM0,2.99A11.959,11.959,0,0,1,11.919,14.913h2.993A14.956,14.956,0,0,0,0,0V2.99Z" fill="#212121"></path></svg></a>
+
+</div>
+</div>
+</div>
+<div class="subscribe-blog nav-down transparent">
+	<div class="wrap">
+<div class="logo-blog">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="88.386" height="23.004" viewBox="0 0 88.386 23.004">
+  <defs>
+    <clippath id="clip-path">
+      <rect id="Rectangle_8739" data-name="Rectangle 8739" width="35.879" height="22.371" fill="#0a1120"></rect>
+    </clippath>
+  </defs>
+  <g id="Group_10241" data-name="Group 10241" transform="translate(-170 -23.314)">
+    <g id="Mask_Group_6551" data-name="Mask Group 6551" transform="translate(170 23.314)" clip-path="url(#clip-path)">
+      <path id="Path_42150" data-name="Path 42150" d="M13.2,101.545A9.765,9.765,0,0,1,6.218,98.6L0,92.3l3.719-3.782,6.218,6.309a4.571,4.571,0,0,0,6.519,0l4.923-5.007a1.8,1.8,0,0,1,2.575,0L26.393,92.3l-6.2,6.324A9.749,9.749,0,0,1,13.2,101.545Z" transform="translate(0 -79.173)" fill="#0a1120"></path>
+      <path id="Path_42151" data-name="Path 42151" d="M112.562,13.061l-6.218-6.324a4.544,4.544,0,0,0-6.519,0L94.9,11.745a1.8,1.8,0,0,1-2.575,0L89.887,9.264,96.105,2.94a9.77,9.77,0,0,1,13.972,0L116.3,9.264Z" transform="translate(-80.402 0)" fill="#0a1120"></path>
+    </g>
+    <path id="Path_42335" data-name="Path 42335" d="M1.267,0V-14.545H7.085a6.609,6.609,0,0,1,2.68.477A3.579,3.579,0,0,1,11.38-12.75a3.494,3.494,0,0,1,.54,1.932,3.125,3.125,0,0,1-.343,1.5,2.937,2.937,0,0,1-.937,1.049,3.85,3.85,0,0,1-1.351.579v.142a3.319,3.319,0,0,1,1.56.471,3.328,3.328,0,0,1,1.185,1.209,3.607,3.607,0,0,1,.455,1.854,3.785,3.785,0,0,1-.572,2.061A3.876,3.876,0,0,1,10.23-.524,6.451,6.451,0,0,1,7.477,0ZM4.341-2.517H6.847a2.908,2.908,0,0,0,1.876-.492,1.626,1.626,0,0,0,.589-1.315,1.966,1.966,0,0,0-.291-1.067,1.975,1.975,0,0,0-.827-.727,2.88,2.88,0,0,0-1.279-.263H4.341Zm0-5.943H6.619a2.714,2.714,0,0,0,1.125-.223,1.852,1.852,0,0,0,.782-.636,1.69,1.69,0,0,0,.286-.988,1.6,1.6,0,0,0-.557-1.272,2.335,2.335,0,0,0-1.58-.484H4.341Zm13.108-6.085V0H14.426V-14.545ZM24.8.21A5.555,5.555,0,0,1,21.936-.5,4.77,4.77,0,0,1,20.08-2.467a6.344,6.344,0,0,1-.653-2.948,6.374,6.374,0,0,1,.653-2.957,4.766,4.766,0,0,1,1.857-1.974,5.555,5.555,0,0,1,2.859-.705,5.555,5.555,0,0,1,2.859.705,4.766,4.766,0,0,1,1.857,1.974,6.374,6.374,0,0,1,.653,2.957,6.344,6.344,0,0,1-.653,2.948A4.77,4.77,0,0,1,27.655-.5,5.555,5.555,0,0,1,24.8.21Zm.017-2.341a1.872,1.872,0,0,0,1.254-.43,2.631,2.631,0,0,0,.766-1.176,5.158,5.158,0,0,0,.259-1.695,5.179,5.179,0,0,0-.259-1.7,2.651,2.651,0,0,0-.766-1.18,1.864,1.864,0,0,0-1.254-.433,1.922,1.922,0,0,0-1.28.433,2.617,2.617,0,0,0-.774,1.18,5.179,5.179,0,0,0-.259,1.7,5.158,5.158,0,0,0,.259,1.695,2.6,2.6,0,0,0,.774,1.176A1.93,1.93,0,0,0,24.813-2.131ZM37.057,4.318a7.048,7.048,0,0,1-2.521-.4,4.22,4.22,0,0,1-1.668-1.091,3.328,3.328,0,0,1-.8-1.546L34.869.9a1.787,1.787,0,0,0,.4.611A1.982,1.982,0,0,0,36,1.969a3.2,3.2,0,0,0,1.121.173,2.662,2.662,0,0,0,1.629-.477A1.864,1.864,0,0,0,39.4.062V-1.932h-.125a2.951,2.951,0,0,1-.6.859,3.018,3.018,0,0,1-1.021.663,3.908,3.908,0,0,1-1.492.256,4.421,4.421,0,0,1-2.232-.574,4.042,4.042,0,0,1-1.6-1.754,6.644,6.644,0,0,1-.594-3,7.041,7.041,0,0,1,.6-3.1,4.342,4.342,0,0,1,1.611-1.859,4.127,4.127,0,0,1,2.205-.619,3.4,3.4,0,0,1,1.53.309,3.071,3.071,0,0,1,1,.766,3.975,3.975,0,0,1,.584.9h.119v-1.835h3V.108A3.845,3.845,0,0,1,41.7,2.437a4.143,4.143,0,0,1-1.886,1.408A7.507,7.507,0,0,1,37.057,4.318Zm.062-6.744a2.07,2.07,0,0,0,1.238-.366,2.281,2.281,0,0,0,.781-1.051,4.481,4.481,0,0,0,.271-1.646,4.7,4.7,0,0,0-.268-1.666,2.414,2.414,0,0,0-.778-1.1,1.989,1.989,0,0,0-1.244-.39,1.977,1.977,0,0,0-1.261.4,2.452,2.452,0,0,0-.773,1.112,4.727,4.727,0,0,0-.262,1.64,4.517,4.517,0,0,0,.265,1.627A2.3,2.3,0,0,0,35.864-2.8,2.065,2.065,0,0,0,37.119-2.426Z" transform="translate(216 42)" fill="#0a1120"></path>
+  </g>
+</svg>
+
+</div>
+<div class="sub-form">
+
+<div class="wpcf7 js" id="wpcf7-f20434-o1" lang="en-US" dir="ltr" data-wpcf7-id="20434">
+<div class="screen-reader-response"><p role="status" aria-live="polite" aria-atomic="true"></p> <ul></ul></div>
+<form action="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#wpcf7-f20434-o1" method="post" class="wpcf7-form init mailchimp-ext-0.5.72" aria-label="Contact form" novalidate="novalidate" data-status="init">
+<div style="display: none;">
+<input type="hidden" name="_wpcf7" value="20434">
+<input type="hidden" name="_wpcf7_version" value="6.0.6">
+<input type="hidden" name="_wpcf7_locale" value="en_US">
+<input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f20434-o1">
+<input type="hidden" name="_wpcf7_container_post" value="0">
+<input type="hidden" name="_wpcf7_posted_data_hash" value="">
+<input type="hidden" name="_cf7a__timestamp" value="ENO512qbgy2bZgL5Jfkw4g==">
+<input type="hidden" name="_cf7a_version" value="mROd9dmLSKc8mHehZT6fNQ==">
+<input type="hidden" name="_cf7a_address" value="/fKvniVhZUkFPQWkYsxHYw==">
+<input type="hidden" name="_cf7a_referer" value="TLadhgU2p2ABWX6F/URhGg==">
+<input type="hidden" name="_cf7a_protocol" value="/pcFoPWqCVGdJo1UrWs5lg==">
+<input type="hidden" name="_cf7a_bot_fingerprint" value="ENO51">
+<input type="hidden" name="_cf7a_bot_fingerprint_extras" value="">
+<input type="hidden" name="_cf7a_append_on_submit" value="">
+<input type="hidden" name="_cf7a_timezone" value="Africa/Cairo"><input type="hidden" name="_cf7a_platform" value="Win32"><input type="hidden" name="_cf7a_screens" value="[1366,768]"><input type="hidden" name="_cf7a_memory" value="8"><input type="hidden" name="_cf7a_user_agent" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"><input type="hidden" name="_cf7a_app_version" value="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"><input type="hidden" name="_cf7a_webdriver" value="true"><input type="hidden" name="_cf7a_session_storage" value="1"><input type="hidden" name="_cf7a_isEdge" value="true"><input type="hidden" name="_cf7a_webgl" value="passed"><input type="hidden" name="_cf7a_webgl_render" value="passed"><input type="hidden" name="_cf7a_mousemove_activity" value="passed"><input type="hidden" name="_cf7a_activity" value="4"><input type="hidden" name="_cf7a_mouseclick_activity" value="passed"></div>
+<div class="mc4wp-form-fields"><span class="wpcf7-form-control-wrap" data-name="your-email"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email" aria-required="true" aria-invalid="false" placeholder="Your email" value="" type="email" name="your-email"></span><input class="wpcf7-form-control wpcf7-submit has-spinner" type="submit" value="Subscribe"><span class="wpcf7-spinner"></span></div>
+<style>
+.wpcf7-form.sent .mc4wp-form-fields
+{
+display:none!important;
+}
+</style><p style="display: none !important;" class="akismet-fields-container" data-prefix="_wpcf7_ak_"><label>Δ<textarea name="_wpcf7_ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea></label><input type="hidden" id="ak_js_1" name="_wpcf7_ak_js" value="1746510219054"><script>document.getElementById( "ak_js_1" ).setAttribute( "value", ( new Date() ).getTime() );</script></p><div class="wpcf7-response-output" aria-hidden="true"></div><p style="display: none !important"><span class="wpcf7-form-control-wrap referer-page"><input type="hidden" name="referer-page" value="http://Direct%20Visit" data-value="http://Direct%20Visit" class="wpcf7-form-control wpcf7-text referer-page" aria-invalid="false"></span></p>
+<!-- Chimpmatic extension by Renzo Johnson -->
+</form>
+</div>
+</div>
+</div>
+</div>
+  
+	<div class="mobile-nav nav-down transparent">
+		<div id="announcement-area-mob" class="announcement-area">
+<section id="block-40" class="widget widget_block widget_text">
+<p class="has-v-8-white-color has-text-color has-link-color has-font-down-3-font-size wp-elements-8c60bddab5865fb318bf6e2db2f4e609">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span><span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span></span><span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span><span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span></span></span><span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span><span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span></span><span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span><span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span></span></span></span><span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span><span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span></span><span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span><span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span></span></span><span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span><span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span></span><span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span><span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.<span class="clone">Visualize, manage, and accelerate your CI/CD workflows with&nbsp;<a href="https://semaphore.io/product/canvas">Semaphore Canvas</a>.</span></span></span></span></span></p>
+</section><section id="block-41" class="widget widget_block widget_text"></section><section id="block-42" class="widget widget_block widget_text"></section></div>
+	
+
+	<div class="site-branding">
+		<p class="site-title"><a href="https://semaphore.io/" rel="home">Semaphore</a></p>
+		</div><!-- .site-branding -->
+
+            <div class="nav-trigger menu">
+                <div class="menu-global menu-top"></div>
+                <div class="menu-global menu-middle"></div>
+                <div class="menu-global menu-bottom"></div>
+            </div>
+        </div>
+
+
+    <div id="mobileNav" class="nav-menu overlay f-sixteen transparent">
+        <div class="overlay-content">
+        <div class="menu">
+		<div class="top-menu-semaphore"><ul id="primary-menu" class="menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-23220"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Docs</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25954"><a href="https://docs.semaphoreci.com/">Cloud Docs</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25955"><a href="https://docs.semaphoreci.com/CE/getting-started/install">Community Edition Docs</a></li>
+</ul>
+</li>
+<li class="side menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-25828"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Product</a>
+<ul class="sub-menu">
+	<li class="title menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-23207"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Features</a>
+	<ul class="sub-menu">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23208"><a href="https://semaphore.io/product/continuous-integration-and-pipelines">🔄 Continuous Integration &amp; Pipelines</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23209"><a href="https://semaphore.io/product/deployments-and-automation">🦾 Deployments &amp; Automation</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23210"><a href="https://semaphore.io/product/metrics-and-observability">📈 Metrics &amp; Observability</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23211"><a href="https://semaphore.io/product/security-and-compliance">🔐 Security &amp; Compliance</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23212"><a href="https://semaphore.io/product/developer-toolkit">🧰 Developer Toolkit</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-24172"><a href="https://semaphore.io/product/test-reports">📊 Test reports</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-24174"><a href="https://semaphore.io/product/monorepos">📁 Monorepos</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-24175"><a href="https://semaphore.io/product/self-hosted-agents">🖥️ Self-hosted agents</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26361"><a href="https://semaphore.io/product/canvas">🎨 Semaphore Canvas</a></li>
+	</ul>
+</li>
+	<li class="title menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-23223"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Use Cases</a>
+	<ul class="sub-menu">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23224"><a href="https://semaphore.io/product/ios">iOS</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23225"><a href="https://semaphore.io/product/docker">Docker &amp; Kubernetes</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23226"><a href="https://semaphore.io/product/android">Android</a></li>
+	</ul>
+</li>
+	<li class="title menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-23241"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Compare</a>
+	<ul class="sub-menu">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23243"><a href="https://semaphore.io/resources/semaphore-vs-jenkins">vs Jenkins</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23245"><a href="https://semaphore.io/resources/semaphore-vs-github-actions">vs GitHub Actions</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23242"><a href="https://semaphore.io/resources/semaphoreci-vs-travisci">vs Travis CI</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23247"><a href="https://semaphore.io/resources/semaphoreci-vs-bitbucket-pipelines">vs Bitbucket</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-26133"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Deployment options</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-26135"><a href="https://docs.semaphoreci.com/CE/getting-started/install">Open source</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26344"><a href="https://semaphore.io/cloud">Cloud</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26134"><a href="https://semaphore.io/hybrid">Hybrid</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26343"><a href="https://semaphore.io/enterprise">Enterprise</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-26199"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">CI/CD</a>
+<ul class="sub-menu">
+	<li class="title menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-23231"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Discover</a>
+	<ul class="sub-menu">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-23232"><a href="https://semaphore.io/blog">📝 Blog</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23233"><a href="https://semaphore.io/podcast">🎙️ Podcast</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23230"><a href="https://semaphore.io/resources">📚 Resources</a></li>
+		<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-23987"><a href="https://semaphore.io/cicd-learning-hub">🎓 CI/CD Learning tool</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23235"><a href="https://semaphore.io/newsletter">📨 Newsletter</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-25829"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Community</a>
+<ul class="sub-menu">
+	<li class="title menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-23219"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#">Connect</a>
+	<ul class="sub-menu">
+		<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25830"><a target="_blank" href="https://www.youtube.com/c/SemaphoreCI">🎥 Youtube ↗</a></li>
+		<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-26118"><a target="_blank" href="https://www.youtube.com/channel/UCvSxFNaUePVWumN9lsj2TMQ">🎥 Semaphore Backstage ↗</a></li>
+		<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-26124"><a href="https://youtube.com/live/CrpkLZg9FDc?feature=share">🎥 Release Roundups ↗</a></li>
+		<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25831"><a target="_blank" href="https://discord.gg/FBuUrV24NH">💬 Discord ↗</a></li>
+		<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25832"><a target="_blank" href="https://github.com/semaphoreio">🐙 GitHub ↗</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+</ul></div>        <div class="top-menu-semaphore"><ul id="Mobile-menu" class="menu"><li id="menu-item-23615" class="button menu-item menu-item-type-custom menu-item-object-custom menu-item-23615"><a href="https://semaphore.io/signup">Get started</a></li>
+<li id="menu-item-23239" class="link menu-item menu-item-type-custom menu-item-object-custom menu-item-23239"><a href="https://semaphore.io/login">Login</a></li>
+</ul></div>        </div>
+        </div>
+			</div>
+			<div class="blog-search">
+				<div class="wrap">
+			<form id="searchform" class="search-form" method="get" action="https://semaphore.io/search">
+<label>
+<span class="screen-reader-text">Search for:</span>
+<input type="text" name="s" id="s" onkeyup="fetch_search()" value="">
+</label>
+    <input class="search-submit" type="submit" value="Search">
+</form>
+			<div id="datafetch"></div>
+			</div>
+			</div>
+	
+
+
+	<div id="content" class="site-content">
+
+
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main single-blog">
+
+		
+<article id="post-10639" class="post-10639 post type-post status-publish format-standard has-post-thumbnail hentry category-engineering" itemscope="" itemtype="http://schema.org/Article">
+	<header class="entry-header">
+	<div class="date-category f-fourteen"><span itemprop="dateModified" content="2020-Feb-18">15 Jul 2022</span> ·  <a href="https://semaphore.io/category/engineering" class="db di-ns link light-gray  ">Software Engineering</a> ·  <spn class="reading-time">22 min read</spn></div> 
+
+		<h1 itemprop="name" class="entry-title">Getting Started with PHPUnit in Laravel</h1>
+		<div class="author-wrap">
+		<div class="entry-meta user-info-tooltip" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+			<div class="image">
+			                                        <img alt="mm" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/618f1bd6dc7e805443e64bdcd5ca692c.jpeg" class="avatar avatar-60 photo" height="60" width="60">                                    			</div>
+			<div class="post-info">
+			<div class="rev-info f-fourteen">Written by:</div>
+			<div class="name f-sixteen" itemprop="name"><a href="https://semaphore.io/author/stephenreescarter">Stephen Rees-Carter</a></div>
+			
+			</div>
+			<span class="user-tooltip-content">
+				<div class="info">
+							<div class="image">
+			                                        <img alt="mm" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/618f1bd6dc7e805443e64bdcd5ca692c.jpeg" class="avatar avatar-40 photo" height="40" width="40">                                    			</div>
+			<div class="name f-twenty-two"><a href="https://semaphore.io/author/stephenreescarter">Stephen Rees-Carter</a></div>	
+				</div>
+
+			<div class="author-description f-fourteen">Senior PHP developer, specialising in Laravel and the extended ecosystem around elegant web applications. Located in Australia and online at <a href="https://stephen.rees-carter.net/">stephen.rees-carter.net</a>.</div>
+			<div class="social-links"><div class="author-twitter"></div>
+<div class="author-linkedIn"></div></div>
+			
+			</span>
+			</div>
+			</div>
+	
+
+			</header><!-- .entry-header -->
+
+<div class="single-blog-intro">
+</div>
+
+	<div class="single-inner-wrap">
+<div class="toc">
+	<div class="wrap">
+<div id="toctrigger" class="title">Contents</div>
+<div class="navtoc"><ul class="toc-list "><li class="toc-list-item is-active-li"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-introduction" class="toc-link node-name--H2  is-active-link">Introduction</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-prerequisites" class="toc-link node-name--H2 ">Prerequisites</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-creating-a-new-test" class="toc-link node-name--H2 ">Creating a New Test</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-writing-a-basic-test" class="toc-link node-name--H2 ">Writing a Basic Test</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-asserttrue-and-assertfalse" class="toc-link node-name--H2 ">assertTrue() and assertFalse()</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-assertequals-and-assertnull" class="toc-link node-name--H2 ">assertEquals() and assertNull()</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-assertcontains-assertcount-and-assertempty" class="toc-link node-name--H2 ">assertContains(), assertCount(), and assertEmpty()</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-testing-your-application" class="toc-link node-name--H2 ">Testing Your Application</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-assertsee-and-assertdontsee" class="toc-link node-name--H2 ">assertSee() and assertDontSee()</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-writing-tests-first" class="toc-link node-name--H2 ">Writing Tests First</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-laravel-dusk" class="toc-link node-name--H2 ">Laravel Dusk</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-clicklink-and-assertpathis" class="toc-link node-name--H2 ">clickLink() and assertPathIs()</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-continuous-integration-for-phpunit-on-semaphore" class="toc-link node-name--H2 ">Continuous Integration for PHPUnit on Semaphore</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-create-a-ci-pipeline" class="toc-link node-name--H2 ">Create a CI Pipeline</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-optimizing-the-pipeline" class="toc-link node-name--H2 ">Optimizing the Pipeline</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-next-reads" class="toc-link node-name--H2 ">Next Reads</a></li><li class="toc-list-item"><a href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#h-conclusion" class="toc-link node-name--H2 ">Conclusion</a></li></ul></div>
+</div>
+</div>			
+
+	<div class="entry-content" itemprop="articleBody">
+
+		
+<h2 class="wp-block-heading" id="h-introduction">Introduction</h2>
+
+
+
+<p><a rel="nofollow" href="http://phpunit.de/">PHPUnit</a> is one of the oldest and most well-known unit testing packages for PHP. It is primarily designed for unit testing, which means <a href="https://semaphore.io/blog/automated-testing-cicd" target="_blank" rel="noreferrer noopener">testing your code</a> in the smallest components possible, but it is also incredibly flexible and can be used for a lot more than just unit testing.</p>
+
+
+
+<p>PHPUnit includes a lot of simple and flexible assertions that allow you to easily test your code, which works really well when you are testing specific components. It does mean, however, that testing more advanced code such as controllers and form submission validation can be a lot more complicated.</p>
+
+
+
+<p>To help make things easier for developers, the <a rel="nofollow" href="http://laravel.com/">Laravel PHP framework</a> includes a collection of <a href="http://laravel.com/docs/6.x/testing">application test helpers</a>, which allow you to write very simple PHPUnit tests to test complex parts of your application.</p>
+
+
+
+<p>The purpose of this tutorial is to introduce you to the basics of PHPUnit testing, using both the default PHPUnit assertions and the Laravel test helpers. The aim is for you to be confident in writing basic tests for your applications by the end of the tutorial.</p>
+
+
+
+<h2 class="wp-block-heading" id="h-prerequisites">Prerequisites</h2>
+
+
+
+<p>This tutorial assumes that you are already familiar with Laravel and know how to run commands within the application directory (such as <code>php artisan</code> commands). We will be creating a couple of basic example classes to learn how the different testing tools work, and as such, it is recommended that you create a fresh application for this tutorial.</p>
+
+
+
+<p>If you have the Laravel installer set up, you can create a new test application by running:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ laravel new phpunit-tests</code></pre>
+
+
+
+<p>Alternatively, you can create a new application by using <a href="https://getcomposer.org/" rel="nofollow">Composer</a> directly:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ <span class="token function">composer</span> create-project laravel/laravel --prefer-dist phpunit-tests</code></pre>
+
+
+
+<p>Other installation options can also be found in the <a href="http://laravel.com/docs/6.x/installation">Laravel documentation</a>.</p>
+
+
+
+<h2 class="wp-block-heading" id="h-creating-a-new-test">Creating a New Test</h2>
+
+
+
+<p>The first step when using PHPUnit is to create a new test class. The convention for test classes is that they are stored within <code>./tests/</code> in your application directory. Inside this folder, each test class is named as <code>&lt;name&gt;Test.php</code>. This format allows PHPUnit to find each test class—it will ignore anything that does not end in <code>Test.php</code>.</p>
+
+
+
+<p>In a new Laravel application, you will notice two files in the <code>./tests/</code> directory: </p>
+
+
+
+<ul class="wp-block-list"><li><code>Feature/ExampleTest.php</code> and <code>Unit/ExampleTest.php</code>  : The <code>ExampleTest.php</code> is an example test class that includes a basic test case using the application testing helpers – ignore it for now.</li><li><code>TestCase.php</code>: The <code>TestCase.php</code> file is a bootstrap file for setting up the Laravel environment within our tests. This allows us to use Laravel facades in tests and provides the framework for the testing helpers,  which we will look at shortly.</li></ul>
+
+
+
+<p> To create a new test class, we can either create a new file manually or run the helpful Artisan <code>make:test</code> command provided by Laravel.</p>
+
+
+
+<p>In order to create a test class called <code>BasicTest</code>, we just need to run this artisan command:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ <span class="token builtin class-name">cd</span> phpunit-test
+$ php artisan make:test BasicTest</code></pre>
+
+
+
+<p>Laravel will create a basic test class that looks like this:</p>
+
+
+
+<pre class="wp-block-code language-php" tabindex="0"><code lang="php" class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token comment"># test/Feature/BasicTest.php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">Tests<span class="token punctuation">\</span>Feature</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">Illuminate<span class="token punctuation">\</span>Foundation<span class="token punctuation">\</span>Testing<span class="token punctuation">\</span>RefreshDatabase</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">Illuminate<span class="token punctuation">\</span>Foundation<span class="token punctuation">\</span>Testing<span class="token punctuation">\</span>WithFaker</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">Tests<span class="token punctuation">\</span>TestCase</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name-definition class-name">BasicTest</span> <span class="token keyword">extends</span> <span class="token class-name">TestCase</span>
+<span class="token punctuation">{</span>
+    <span class="token comment">/**
+     * A basic feature test example.
+     *
+     * @return void
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">testExample</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$response</span> <span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'/'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token variable">$response</span><span class="token operator">-&gt;</span><span class="token function">assertStatus</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></span></code></pre>
+
+
+
+<p>The most important thing to notice here is the <code>test</code> prefix on the method name. Like the <code>Test</code> suffix for class names, this <code>test</code> prefix tells PHPUnit what methods to run when testing. If you forget the <code>test</code> prefix, then PHPUnit will ignore the method.</p>
+
+
+
+<p>Before we run our test suite for the first time, it is worth pointing out the default <code>phpunit.xml</code> file that Laravel provides. PHPUnit will automatically look for a file named <code>phpunit.xml</code> or <code>phpunit.xml.dist</code> in the current directory when it is run. This is where you configure the specific options for your tests.</p>
+
+
+
+<p>There is a lot of information within this file, however, the most important section, for now, is the <code>testsuite</code> directory definition:</p>
+
+
+
+<pre class="wp-block-code"><code lang="" class="">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+. . .
+
+    &lt;testsuites&gt;
+        &lt;testsuite name="Unit"&gt;
+            &lt;directory suffix="Test.php"&gt;./tests/Unit&lt;/directory&gt;
+        &lt;/testsuite&gt;
+
+        &lt;testsuite name="Feature"&gt;
+            &lt;directory suffix="Test.php"&gt;./tests/Feature&lt;/directory&gt;
+        &lt;/testsuite&gt;
+    &lt;/testsuites&gt;
+
+. . .
+
+&lt;/phpunit&gt;</code></pre>
+
+
+
+<p>This tells PHPUnit to run the tests it finds in the <code>./tests/Unit</code> and <code>./tests/Feature</code> directories, which, as we have previously learned, are the convention for storing tests.</p>
+
+
+
+<p>Now that we have created a base test, and are aware of the PHPUnit configuration, it is time to run our tests for the first time.</p>
+
+
+
+<p>You can run your PHPUnit tests by running the <code>phpunit</code> command:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ ./vendor/bin/phpunit</code></pre>
+
+
+
+<p>You should see something similar to this as the output:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">PHPUnit <span class="token number">8.5</span>.2 by Sebastian Bergmann and contributors.
+
+<span class="token punctuation">..</span>.                                                     <span class="token number">3</span> / <span class="token number">3</span> <span class="token punctuation">(</span><span class="token number">100</span>%<span class="token punctuation">)</span>
+
+Time: <span class="token number">91</span> ms, Memory: <span class="token number">16.00</span> MB
+
+OK <span class="token punctuation">(</span><span class="token number">3</span> tests, <span class="token number">3</span> assertions<span class="token punctuation">)</span></code></pre>
+
+
+
+<p>Now that we have a working PHPUnit setup, it is time to move onto writing a basic test.</p>
+
+
+
+<h2 class="wp-block-heading" id="h-writing-a-basic-test">Writing a Basic Test</h2>
+
+
+
+<p>To help cover the basic assertions that PHPUnit provides, we will first create a basic class that provides some simple functionality.</p>
+
+
+
+<p>Create a new file in your <code>./app/</code> directory called <code>Box.php</code>, and copy this example class:</p>
+
+
+
+<pre class="wp-block-code language-php" tabindex="0"><code lang="php" class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token comment"># app/Box.php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name-definition class-name">Box</span>
+<span class="token punctuation">{</span>
+    <span class="token comment">/**
+     * @var array
+     */</span>
+    <span class="token keyword">protected</span> <span class="token variable">$items</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * Construct the box with the given items.
+     *
+     * @param array $items
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">__construct</span><span class="token punctuation">(</span><span class="token variable">$items</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token property">items</span> <span class="token operator">=</span> <span class="token variable">$items</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * Check if the specified item is in the box.
+     *
+     * @param string $item
+     * @return bool
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">has</span><span class="token punctuation">(</span><span class="token variable">$item</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">in_array</span><span class="token punctuation">(</span><span class="token variable">$item</span><span class="token punctuation">,</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token property">items</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * Remove an item from the box, or null if the box is empty.
+     *
+     * @return string
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">takeOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">array_shift</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token property">items</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * Retrieve all items from the box that start with the specified letter.
+     *
+     * @param string $letter
+     * @return array
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">startsWith</span><span class="token punctuation">(</span><span class="token variable">$letter</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">array_filter</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token property">items</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token variable">$item</span><span class="token punctuation">)</span> <span class="token keyword">use</span> <span class="token punctuation">(</span><span class="token variable">$letter</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">stripos</span><span class="token punctuation">(</span><span class="token variable">$item</span><span class="token punctuation">,</span> <span class="token variable">$letter</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></span></code></pre>
+
+
+
+<p>Next, open your <code>./tests/Feature/BasicTest.php</code> class (that we created earlier), and remove the <code>testExample</code> method that was created by default. You should be left with an empty class.</p>
+
+
+
+<p>We will now use seven of the basic PHPUnit assertions to write tests for our <code>Box</code> class. There are <a href="https://laravel.com/docs/6.x/http-tests#available-assertions">many assertions available</a>, but the most common are:</p>
+
+
+
+<ul class="wp-block-list"><li><code>assertTrue()</code></li><li><code>assertFalse()</code></li><li><code>assertEquals()</code></li><li><code>assertNull()</code></li><li><code>assertContains()</code></li><li><code>assertCount()</code></li><li><code>assertEmpty()</code></li><li><code>assertStatus()</code></li></ul>
+
+
+
+<h2 class="wp-block-heading" id="h-asserttrue-and-assertfalse">assertTrue() and assertFalse()</h2>
+
+
+
+<p><code>assertTrue()</code> and <code>assertFalse()</code> allow you to assert that a value is equated to either true or false. This means they are perfect for testing methods that return boolean values. In our <code>Box</code> class, we have a method called <code>has($item)</code>, which returns true or false when the specified item is in the box or not.</p>
+
+
+
+<p>To write a test for this in PHPUnit, we can do the following:</p>
+
+
+
+<pre class="wp-block-code language-php" tabindex="0"><code lang="php" class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token comment"># test/Feature/BasicTest.php</span>
+
+<span class="token comment"># Import Box class</span>
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Box</span><span class="token punctuation">;</span>
+
+<span class="token operator">.</span> <span class="token operator">.</span> <span class="token operator">.</span>
+
+ <span class="token comment"># Test function for Box class</span>
+ <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">testBoxContents</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+ <span class="token punctuation">{</span>
+     <span class="token variable">$box</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Box</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'toy'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">assertTrue</span><span class="token punctuation">(</span><span class="token variable">$box</span><span class="token operator">-&gt;</span><span class="token function">has</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'toy'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">assertFalse</span><span class="token punctuation">(</span><span class="token variable">$box</span><span class="token operator">-&gt;</span><span class="token function">has</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'ball'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span></span></code></pre>
+
+
+
+<p>Note how we only pass a single parameter into the <code>assertTrue()</code> and <code>assertFalse()</code> methods, and it is the output of the <code>has($item)</code> method.</p>
+
+
+
+<p>If you run the <code>./vendor/bin/phpunit</code> command now, you will notice the output includes:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">OK <span class="token punctuation">(</span><span class="token number">3</span> tests, <span class="token number">4</span> assertions<span class="token punctuation">)</span></code></pre>
+
+
+
+<p>This means our tests have passed.</p>
+
+
+
+<p>If you swap the <code>assertFalse()</code> for <code>assertTrue()</code> and run the <code>phpunit</code> command again, the output will look like this:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">PHPUnit <span class="token number">8.5</span>.2 by Sebastian Bergmann and contributors.
+
+.F.                                                                 <span class="token number">3</span> / <span class="token number">3</span> <span class="token punctuation">(</span><span class="token number">100</span>%<span class="token punctuation">)</span>
+
+Time: <span class="token number">86</span> ms, Memory: <span class="token number">16.00</span> MB
+
+There was <span class="token number">1</span> failure:
+
+<span class="token number">1</span><span class="token punctuation">)</span> Tests<span class="token punctuation">\</span>Feature<span class="token punctuation">\</span>BasicTest::testBoxContents
+Failed asserting that <span class="token boolean">false</span> is true.
+
+/home/tom/r/start-phpunit/phpunit-tests/tests/Feature/BasicTest.php:29
+
+FAILURES<span class="token operator">!</span>
+Tests: <span class="token number">3</span>, Assertions: <span class="token number">4</span>, Failures: <span class="token number">1</span>.</code></pre>
+
+
+
+<p>This tells us that the assertion on line 29 failed to assert that a <code>false</code> value was <code>true</code> as we switched the <code>assertFalse()</code> for <code>assertTrue()</code>.</p>
+
+
+
+<p>Swap it back, and re-run PHPUnit. The tests should again pass, as we have fixed the broken test.</p>
+
+
+
+<h2 class="wp-block-heading" id="h-assertequals-and-assertnull">assertEquals() and assertNull()</h2>
+
+
+
+<p>Next, we will look at <code>assertEquals()</code>, and <code>assertNull()</code>.</p>
+
+
+
+<p><code>assertEquals()</code> is used to compare the actual value of the variable to the expected value. We want to use it to check if the value of the <code>takeOne()</code> function is an item that is currently in the box. As the <code>takeOne()</code> method returns a <code>null</code> value when the box is empty, we can use <code>assertNull()</code> to check for that too.</p>
+
+
+
+<p>Unlike <code>assertTrue()</code>, <code>assertFalse()</code>, and <code>assertNull()</code>, <code>assertEquals()</code> takes two parameters. The first being the <strong>expected</strong> value, and the second being the <strong>actual</strong> value.</p>
+
+
+
+<p>We can implement these assertions in our class as follows:</p>
+
+
+
+<pre class="wp-block-code language-php" tabindex="0"><code lang="php" class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token comment"># tests/Feature/BasicTest.php</span>
+
+<span class="token operator">.</span> <span class="token operator">.</span> <span class="token operator">.</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">testTakeOneFromTheBox</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$box</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Box</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'torch'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'torch'</span><span class="token punctuation">,</span> <span class="token variable">$box</span><span class="token operator">-&gt;</span><span class="token function">takeOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// Null, now the box is empty</span>
+        <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">assertNull</span><span class="token punctuation">(</span><span class="token variable">$box</span><span class="token operator">-&gt;</span><span class="token function">takeOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token operator">.</span> <span class="token operator">.</span> <span class="token operator">.</span></span></code></pre>
+
+
+
+<p>Run the <code>phpunit</code> command, and you should see:</p>
+
+
+
+<pre class="wp-block-code"><code class="">OK (4 tests, 6 assertions)</code></pre>
+
+
+
+<h2 class="wp-block-heading" id="h-assertcontains-assertcount-and-assertempty">assertContains(), assertCount(), and assertEmpty()</h2>
+
+
+
+<p>Finally, we have three assertions that work with arrays, which we can use to check the <code>startsWith($item)</code> method in our <code>Box</code> class. <code>assertContains()</code> asserts that an expected value exists within the provided array, <code>assertCount()</code> asserts the number of items in the array matches the specified amount, and <code>assertEmpty()</code> asserts that the provided array is empty.</p>
+
+
+
+<p>We can implement tests for these like this:</p>
+
+
+
+<pre class="wp-block-code language-php" tabindex="0"><code lang="php" class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token comment"># tests/Feature/BasicTest.php</span>
+
+<span class="token operator">.</span> <span class="token operator">.</span> <span class="token operator">.</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">testStartsWithALetter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$box</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Box</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'toy'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'torch'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'ball'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'cat'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'tissue'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token variable">$results</span> <span class="token operator">=</span> <span class="token variable">$box</span><span class="token operator">-&gt;</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'t'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">assertCount</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token variable">$results</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">assertContains</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'toy'</span><span class="token punctuation">,</span> <span class="token variable">$results</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">assertContains</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'torch'</span><span class="token punctuation">,</span> <span class="token variable">$results</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">assertContains</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'tissue'</span><span class="token punctuation">,</span> <span class="token variable">$results</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// Empty array if passed even</span>
+        <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">assertEmpty</span><span class="token punctuation">(</span><span class="token variable">$box</span><span class="token operator">-&gt;</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'s'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token operator">.</span> <span class="token operator">.</span> <span class="token operator">.</span></span></code></pre>
+
+
+
+<p>Save and run your tests again:</p>
+
+
+
+<pre class="wp-block-code"><code class="">OK (5 tests, 11 assertions)</code></pre>
+
+
+
+<p>Congratulations, you have just fully tested the <code>Box</code> class using seven of the basic PHPUnit assertions. You can do a lot with these simple assertions, and most of the other, more complex, assertions that are available still follow the same usage pattern.</p>
+
+
+
+<h2 class="wp-block-heading" id="h-testing-your-application">Testing Your Application</h2>
+
+
+
+<p>Unit testing each component in your application works in a lot of situations and should definitely be part of your development process, however, it isn’t all the testing you need to do. When you are <a href="https://semaphore.io/blog/build-stage">building an application</a> that includes complex views, navigation, and forms, you will want to test these components too. This is where Laravel’s test helpers make things just as easy as unit testing simple components.</p>
+
+
+
+<p>We previously created a new test file and we skipped the <code>./tests/Feature/ExampleTest.php</code> file. Open it now, and it should look something like this:</p>
+
+
+
+<pre class="wp-block-code language-php" tabindex="0"><code lang="php" class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token comment"># tests/Feature/ExampleTest.php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">Tests<span class="token punctuation">\</span>Feature</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">Illuminate<span class="token punctuation">\</span>Foundation<span class="token punctuation">\</span>Testing<span class="token punctuation">\</span>RefreshDatabase</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">Tests<span class="token punctuation">\</span>TestCase</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name-definition class-name">ExampleTest</span> <span class="token keyword">extends</span> <span class="token class-name">TestCase</span>
+<span class="token punctuation">{</span>
+    <span class="token comment">/**
+     * A basic test example.
+     *
+     * @return void
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">testBasicTest</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$response</span> <span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'/'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token variable">$response</span><span class="token operator">-&gt;</span><span class="token function">assertStatus</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></span></code></pre>
+
+
+
+<p>We can see the test in this case, it is very simple. Without any prior knowledge of how the test helpers work, we can assume it means something like this:</p>
+
+
+
+<ol class="wp-block-list"><li>when I visit <code>/</code> (webroot)</li><li>I should get an HTTP status code 200 (OK)</li></ol>
+
+
+
+<p>If you open your web browser to our application:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ php artisan serve</code></pre>
+
+
+
+<p>Navigate to <a href="http://localhost:8000/">http://localhost:8000</a>. You should see a splash screen with “Laravel” on the webroot. Given that this test has been passing PHPUnit, it is safe to say that our translation of this example test is correct.</p>
+
+
+
+<p>This test is ensuring that the web page rendered at the <code>/</code> path returns successfully. A simple check like this may not seem like much, but if there is critical information your website needs to display, a simple test like this may prevent you from deploying a broken application if a change somewhere else causes the page to no longer display the right information.</p>
+
+
+
+<h2 class="wp-block-heading" id="h-assertsee-and-assertdontsee">assertSee() and assertDontSee()</h2>
+
+
+
+<p>Let’s write our own test now, and take it one step further.</p>
+
+
+
+<p>Edit the routes file located at <code>routes/web.php</code>. Add the following route below the Welcome route:</p>
+
+
+
+<pre class="wp-block-code language-php" tabindex="0"><code lang="php" class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token comment"># routes/web.php</span>
+
+<span class="token operator">.</span> <span class="token operator">.</span> <span class="token operator">.</span>
+
+<span class="token class-name static-context">Route</span><span class="token operator">::</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'/alpha'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">view</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'alpha'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span></code></pre>
+
+
+
+<p>For the sake of this tutorial, we will go for a Greek alphabet themed route.</p>
+
+
+
+<p>Next, create the view template at <code>./resources/views/alpha.blade.php</code>, and save some basic HTML with the Alpha keyword:</p>
+
+
+
+<pre class="wp-block-code"><code lang="" class="">&lt;!DOCTYPE html&gt;
+&lt;html lang="{{ str_replace('_', '-', app()-&gt;getLocale()) }}"&gt;
+    &lt;head&gt;
+        &lt;meta charset="utf-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+        &lt;title&gt;Alpha&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;This is the Alpha page&lt;/h1&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+
+
+<p>Now open it in your browser to ensure it is working as expected with: <code>php artisan serve</code>. Go to <a href="http://localhost:8000/alpha">http://localhost:8000/alpha</a>, and it should display a friendly “This is the Alpha page.” message.</p>
+
+
+
+<p>Now that we have the template, we will create a new test. Run the <code>make:test</code> command:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ php artisan make:test AlphaTest</code></pre>
+
+
+
+<p>Then edit the test, using the example test as a guide, but we also want to ensure that our “alpha” page does not mention “beta”. To do this, we can use the <code>assertDontSee()</code> assertion, which does the opposite of <code>assertSee()</code>.</p>
+
+
+
+<p>This means we can do a simple test, replace the <code>testExample</code> function in <code>test/Feature/AlphaTest.php</code> with this one:</p>
+
+
+
+<pre class="wp-block-code language-php" tabindex="0"><code lang="php" class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token comment"># test/Feature/AlphaTest.php</span>
+
+<span class="token operator">.</span> <span class="token operator">.</span> <span class="token operator">.</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">testExample</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$response</span> <span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'/alpha'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token variable">$response</span><span class="token operator">-&gt;</span><span class="token function">assertStatus</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$response</span><span class="token operator">-&gt;</span><span class="token function">assertSee</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'Alpha'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$response</span><span class="token operator">-&gt;</span><span class="token function">assertDontSee</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'Beta'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token operator">.</span> <span class="token operator">.</span> <span class="token operator">.</span>
+</span></code></pre>
+
+
+
+<p>Save it and run PHPUnit (<code>./vendor/bin/phpunit</code>), and it should all pass, with the status line looking something like this:</p>
+
+
+
+<pre class="wp-block-code"><code class="">OK (7 tests, 17 assertions)</code></pre>
+
+
+
+<h2 class="wp-block-heading" id="h-writing-tests-first">Writing Tests First</h2>
+
+
+
+<p>A great thing about tests is that you can use the <strong>Test-Driven Development</strong> (<a href="https://semaphore.io/blog/test-driven-development">TDD</a>) approach, and write your tests first. After writing your tests, you run them and see that they fail, <strong>then</strong> you write the code that satisfies the tests to make everything pass again. So, let’s do that for the next page.</p>
+
+
+
+<p>First, make a <code>BetaTest</code> class using the <code>make:test</code> artisan command:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ php artisan make:test BetaTest</code></pre>
+
+
+
+<p>Next, update the test case so it is checking the <code>/beta</code> route for “Beta”. Edit <code>test/Feature/BetaTest.php</code>:</p>
+
+
+
+<pre class="wp-block-code language-php" tabindex="0"><code lang="php" class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token comment"># tests/Feature/BetaTest.php</span>
+
+<span class="token operator">.</span> <span class="token operator">.</span> <span class="token operator">.</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">testExample</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$response</span> <span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'/beta'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token variable">$response</span><span class="token operator">-&gt;</span><span class="token function">assertStatus</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token variable">$response</span><span class="token operator">-&gt;</span><span class="token function">assertSee</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'Beta'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$response</span><span class="token operator">-&gt;</span><span class="token function">assertDontSee</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'Alpha'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token operator">.</span> <span class="token operator">.</span> <span class="token operator">.</span></span></code></pre>
+
+
+
+<p>Now, run the test using <code>./vendor/bin/phpunit</code>. The result should be a slightly unfriendly error message, that looks like this:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ ./vendor/bin/phpunit
+PHPUnit <span class="token number">8.5</span>.2 by Sebastian Bergmann and contributors.
+
+<span class="token punctuation">..</span><span class="token punctuation">..</span>.F.                                                             <span class="token number">7</span> / <span class="token number">7</span> <span class="token punctuation">(</span><span class="token number">100</span>%<span class="token punctuation">)</span>
+
+Time: <span class="token number">206</span> ms, Memory: <span class="token number">18.00</span> MB
+
+There was <span class="token number">1</span> failure:
+
+<span class="token number">1</span><span class="token punctuation">)</span> Tests<span class="token punctuation">\</span>Feature<span class="token punctuation">\</span>BetaTest::testExample
+Expected status code <span class="token number">200</span> but received <span class="token number">404</span>.
+Failed asserting that <span class="token boolean">false</span> is true.
+
+/home/tom/r/start-phpunit/phpunit-tests/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestResponse.php:185
+/home/tom/r/start-phpunit/phpunit-tests/tests/Feature/BetaTest.php:20
+
+FAILURES<span class="token operator">!</span>
+Tests: <span class="token number">7</span>, Assertions: <span class="token number">14</span>, Failures: <span class="token number">1</span>.</code></pre>
+
+
+
+<p>We now have an expectation for a missing route. Let’s create it.</p>
+
+
+
+<p>First, edit the <code>./routes/web.php</code> file to create the new <code>/beta</code> route:</p>
+
+
+
+<pre class="wp-block-code language-php" tabindex="0"><code lang="php" class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token comment"># routes/web.php</span>
+
+<span class="token operator">.</span> <span class="token operator">.</span> <span class="token operator">.</span>
+
+<span class="token class-name static-context">Route</span><span class="token operator">::</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'/beta'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">view</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'beta'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token operator">.</span> <span class="token operator">.</span> <span class="token operator">.</span></span></code></pre>
+
+
+
+<p>Next, create the view template at <code>./resources/views/beta.blade.php</code>:</p>
+
+
+
+<pre class="wp-block-code"><code lang="" class="">&lt;!DOCTYPE html&gt;
+&lt;html lang="{{ str_replace('_', '-', app()-&gt;getLocale()) }}"&gt;
+    &lt;head&gt;
+        &lt;meta charset="utf-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+        &lt;title&gt;Beta&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;This is the Beta page&lt;/h1&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+
+
+<p>Now, run PHPUnit again, and the result should be back to green.</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ ./vendor/bin/phpunit
+PHPUnit <span class="token number">8.5</span>.2 by Sebastian Bergmann and contributors.
+
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>.                                                             <span class="token number">7</span> / <span class="token number">7</span> <span class="token punctuation">(</span><span class="token number">100</span>%<span class="token punctuation">)</span>
+
+Time: <span class="token number">101</span> ms, Memory: <span class="token number">18.00</span> MB
+
+OK <span class="token punctuation">(</span><span class="token number">7</span> tests, <span class="token number">16</span> assertions<span class="token punctuation">)</span></code></pre>
+
+
+
+<p>We have now implemented our new page using <em>Test Driven Development</em> by writing the test first.</p>
+
+
+
+<h2 class="wp-block-heading" id="h-laravel-dusk">Laravel Dusk</h2>
+
+
+
+<p><code><a href="https://laravel.com/docs/6.x/dusk">Laravel Dusk</a></code> is a browser testing toolset that was introduced in Laravel 5.4. It allows us to run tests directly in a Google Chrome browser, making our tests more real and reliable.</p>
+
+
+
+<p>With Dusk we can simulate user interactions, click on links, make assertions, and execute JavaScript among many other things.</p>
+
+
+
+<p>As mentioned before, Dusk uses Google Chrome, so you’ll need to make sure you have it installed first (Chromium may not work). Alternatively, you can use <a href="https://laravel.com/docs/6.x/dusk#using-other-browsers">other browsers</a> with Selenium.</p>
+
+
+
+<p>Install the Dusk components:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ <span class="token function">composer</span> require --dev laravel/dusk
+$ php artisan dusk:install</code></pre>
+
+
+
+<p>This will install all the required components, including a Google <a href="https://sites.google.com/a/chromium.org/chromedriver/home">ChromeDriver</a> and an example test at <code>test/Browser/ExampleTest.php</code>.</p>
+
+
+
+<p>Next, we need to start the application, preferably on a different port, so it doesn’t conflict with our development environment. Create a Dusk-only environment file:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ <span class="token function">cp</span> .env .env.dusk.local</code></pre>
+
+
+
+<p>Open the new file <code>.env.dusk.local</code> and change the port number, for example, we’ll use port 8010:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash"><span class="token comment"># .env.dusk.local</span>
+
+<span class="token builtin class-name">.</span> <span class="token builtin class-name">.</span> <span class="token builtin class-name">.</span>
+
+<span class="token assign-left variable">APP_URL</span><span class="token operator">=</span>http://localhost:8010
+
+<span class="token builtin class-name">.</span> <span class="token builtin class-name">.</span> <span class="token builtin class-name">.</span></code></pre>
+
+
+
+<p>Start the application on the same port:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ php artisan serve --port<span class="token operator">=</span><span class="token number">8010</span> <span class="token operator">&amp;</span></code></pre>
+
+
+
+<p>Run the example test:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ php artisan dusk
+
+PHPUnit <span class="token number">8.5</span>.2 by Sebastian Bergmann and contributors.
+
+<span class="token builtin class-name">.</span>                                                                   <span class="token number">1</span> / <span class="token number">1</span> <span class="token punctuation">(</span><span class="token number">100</span>%<span class="token punctuation">)</span>
+
+Time: <span class="token number">554</span> ms, Memory: <span class="token number">16.00</span> MB
+
+OK <span class="token punctuation">(</span><span class="token number">1</span> test, <span class="token number">1</span> assertion<span class="token punctuation">)</span></code></pre>
+
+
+
+<h2 class="wp-block-heading" id="h-clicklink-and-assertpathis">clickLink() and assertPathIs()</h2>
+
+
+
+<p>Dusk also provides a helper to allow the test to click a link that exists on the page (<code>clickLink()</code>), as well as a way to check what the resulting page is (<code>assertPathIs()</code>).</p>
+
+
+
+<p>Let’s use these two helpers to implement links between the Alpha and Beta pages.</p>
+
+
+
+<p>First, let’s create new Browser-only tests:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ php artisan dusk:make AlphaTest
+$ php artisan dusk:make BetaTest</code></pre>
+
+
+
+<p>Open <code>test/Browser/AlphaTest.php</code> and replace the <code>testExample</code> method with this one:</p>
+
+
+
+<pre class="wp-block-code"><code class="">&lt;?php
+# test/Browser/AlphaTest.php
+
+. . .
+
+    public function testExample()
+    {
+        $this-&gt;browse(function (Browser $browser) {
+            $browser-&gt;visit('/alpha')
+                    -&gt;assertSee('Alpha')
+                    -&gt;clickLink('Next')
+                    -&gt;assertPathIs('/beta');
+        });
+    }
+
+. . .</code></pre>
+
+
+
+<p>The new test will click the ‘Next’ link found on the “alpha” page to go to the “beta” page.</p>
+
+
+
+<p>You can run the test suite now, but as expected it will fail as we haven’t updated our HTML yet.</p>
+
+
+
+<p>Next, we will update the <code>test/Browser/BetaTest.php</code> to do similar:</p>
+
+
+
+<pre class="wp-block-code language-php" tabindex="0"><code lang="php" class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token comment"># test/Browser/BetaTest.php</span>
+
+<span class="token operator">.</span> <span class="token operator">.</span> <span class="token operator">.</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">testExample</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">browse</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token class-name type-declaration">Browser</span> <span class="token variable">$browser</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token variable">$browser</span><span class="token operator">-&gt;</span><span class="token function">visit</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'/beta'</span><span class="token punctuation">)</span>
+                    <span class="token operator">-&gt;</span><span class="token function">assertSee</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'Beta'</span><span class="token punctuation">)</span>
+                    <span class="token operator">-&gt;</span><span class="token function">clickLink</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'Previous'</span><span class="token punctuation">)</span>
+                    <span class="token operator">-&gt;</span><span class="token function">assertPathIs</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'/alpha'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token operator">.</span> <span class="token operator">.</span> <span class="token operator">.</span></span></code></pre>
+
+
+
+<p>Next, let’s update our HTML templates to add Next and Previous links.</p>
+
+
+
+<p>Edit <code>resources/views/alpha.blade.php</code>:</p>
+
+
+
+<pre class="wp-block-code"><code lang="" class="">&lt;!DOCTYPE html&gt;
+&lt;html lang="{{ str_replace('_', '-', app()-&gt;getLocale()) }}"&gt;
+    &lt;head&gt;
+        &lt;meta charset="utf-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+        &lt;title&gt;Alpha&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;This is the Alpha page&lt;/h1&gt;
+        &lt;a href="/beta"&gt;Next&lt;/a&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+
+
+<p>Then edit <code>resources/views/beta.blade.php</code>:</p>
+
+
+
+<pre class="wp-block-code language-php" tabindex="0"><code lang="php" class="language-php"><span class="token operator">&lt;</span><span class="token operator">!</span><span class="token constant">DOCTYPE</span> html<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>html lang<span class="token operator">=</span><span class="token string double-quoted-string">"{{ str_replace('_', '-', app()-&gt;getLocale()) }}"</span><span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>head<span class="token operator">&gt;</span>
+        <span class="token operator">&lt;</span>meta charset<span class="token operator">=</span><span class="token string double-quoted-string">"utf-8"</span><span class="token operator">&gt;</span>
+        <span class="token operator">&lt;</span>meta name<span class="token operator">=</span><span class="token string double-quoted-string">"viewport"</span> content<span class="token operator">=</span><span class="token string double-quoted-string">"width=device-width, initial-scale=1"</span><span class="token operator">&gt;</span>
+        <span class="token operator">&lt;</span>title<span class="token operator">&gt;</span>Beta<span class="token operator">&lt;</span><span class="token operator">/</span>title<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>head<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>body<span class="token operator">&gt;</span>
+        <span class="token operator">&lt;</span>h1<span class="token operator">&gt;</span>This is the Beta page<span class="token operator">&lt;</span><span class="token operator">/</span>h1<span class="token operator">&gt;</span>
+        <span class="token operator">&lt;</span>a href<span class="token operator">=</span><span class="token string double-quoted-string">"/alpha"</span><span class="token operator">&gt;</span>Previous<span class="token operator">&lt;</span><span class="token operator">/</span>a<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>body<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>html<span class="token operator">&gt;</span></code></pre>
+
+
+
+<p>Save the files and run Dusk again:</p>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ php artisan dusk
+PHPUnit <span class="token number">8.5</span>.2 by Sebastian Bergmann and contributors.
+
+<span class="token punctuation">..</span>.                                                      <span class="token number">3</span> / <span class="token number">3</span> <span class="token punctuation">(</span><span class="token number">100</span>%<span class="token punctuation">)</span>
+
+Time: <span class="token number">1.45</span> seconds, Memory: <span class="token number">18.00</span> MB
+
+OK <span class="token punctuation">(</span><span class="token number">3</span> tests, <span class="token number">5</span> assertions<span class="token punctuation">)</span></code></pre>
+
+
+
+<p>We have now tested our new pages, including the Next/Previous links between them.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>Read More: <a href="https://semaphore.io/blog/7-continuous-integration-tools-for-php-laravel">7 Continuous Integration Tools for PHP Laravel Developers</a></p></blockquote>
+
+
+
+<h2 class="wp-block-heading" id="h-continuous-integration-for-phpunit-on-semaphore">Continuous Integration for PHPUnit on Semaphore</h2>
+
+
+
+<p>Testing is a daily part of every developer’s routine. <a href="https://semaphore.io/continuous-integration">Continuous Integration</a> (CI) is a software development practice in which test the application on every change. Teams that use CI can merge changes into the main branch several times a day, reducing the chance of conflicts and improving software quality.</p>
+
+
+
+<p>We can add Semaphore CI/CD to our project in just a few minutes. We’ll only need:</p>
+
+
+
+<ul class="wp-block-list"><li><a href="https://github.com/">GitHub</a>: A GitHub account for the code.</li><li><a href="https://semaphore.io/">Semaphore</a>: A Semaphore account. You can get it for free using the <strong>TRY it Free</strong> button on the top-right corner.</li><li><a href="https://git-scm.com/">Git</a>: Git to push the code to GitHub.</li></ul>
+
+
+
+<p><strong>NB</strong>: to help your testing efforts, Semaphore has Test Reports. This feature allows you to see which tests have failed, find skipped tests and see the slowest tests in your test suite. <a href="https://semaphore.io/blog/test-reports" target="_blank" rel="noreferrer noopener">Read more</a> about the feature.</p>
+
+
+
+<h3 class="wp-block-heading" id="h-push-code-to-github">Push Code to GitHub</h3>
+
+
+
+<p>The first thing to do it to upload our examples to GitHub:</p>
+
+
+
+<ul class="wp-block-list"><li>Create a <a href="https://help.github.com/en/github/getting-started-with-github/create-a-repo">new repository</a> on GitHub.</li><li>Leave all the options unchecked. Click on the <strong>Create Repository</strong> button:</li></ul>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img decoding="async" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/Screenshot217.webp" alt="" class="wp-image-12598"></figure>
+
+
+
+<ul class="wp-block-list"><li>Copy the URL of your new repository:</li></ul>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img decoding="async" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/Screenshot218-1024x792.webp" alt="" class="wp-image-12599"></figure>
+
+
+
+<ul class="wp-block-list"><li>Push your code to GitHub:</li></ul>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">$ <span class="token function">git</span> init
+$ <span class="token function">git</span> remote <span class="token function">add</span> origin YOUR_REPOSITORY_URL
+$ <span class="token function">git</span> <span class="token function">add</span> -A
+$ <span class="token function">git</span> <span class="token function">add</span> --force .env.dusk.local
+$ <span class="token function">git</span> commit -m <span class="token string">"initial commit"</span>
+$ <span class="token function">git</span> push origin master</code></pre>
+
+
+
+<h2 class="wp-block-heading" id="h-create-a-ci-pipeline">Create a CI Pipeline</h2>
+
+
+
+<p>A <a href="https://semaphore.io/blog/cicd-pipeline">pipeline</a> represents a series of processes that operate on our code. Each time the code is updated, each time a commit happens or a branch merged, the code enters the pipeline and is submitted to a series of tests. A good CI pipeline will provide a short feedback cycle that helps to weed out errors faster.</p>
+
+
+
+<p>To create a pipeline for the project:</p>
+
+
+
+<ul class="wp-block-list"><li>In Semaphore, use the <strong>+ (plus sign)</strong> button next to <strong>Projects</strong> to add the repository:</li></ul>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img decoding="async" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/Screenshot45-2.webp" alt="" class="wp-image-12600"></figure>
+
+
+
+<ul class="wp-block-list"><li>Find your repository and click on <strong>Choose:</strong></li></ul>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img decoding="async" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/Screenshot219.webp" alt="" class="wp-image-12601"></figure>
+
+
+
+<ul class="wp-block-list"><li>Select the <strong>Laravel </strong>starter workflow:</li></ul>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img decoding="async" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/Screenshot221.webp" alt="" class="wp-image-12602"></figure>
+
+
+
+<ul class="wp-block-list"><li>Click on <strong>Customize it first</strong>. We need to make a few tweaks in the pipeline before it runs.</li></ul>
+
+
+
+<p>We get the <strong>Workflow Builder</strong> screen, we can always open it using the <strong>Edit Workflow</strong> button on the top-right corner:</p>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img decoding="async" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/Screenshot222.webp" alt="" class="wp-image-12605"></figure>
+
+
+
+<ul class="wp-block-list"><li><strong>Pipeline</strong>: A pipeline has a specific objective, e.g. build. Pipelines are made of blocks that are executed from left to right.</li><li><strong>Agent</strong>: The agent is the virtual machine that powers the pipeline. We have three <a href="https://docs.semaphoreci.com/ci-cd-environment/machine-types/">machine types</a> to choose from. The machine runs an optimized <a href="https://docs.semaphoreci.com/ci-cd-environment/ubuntu-18.04-image/">Ubuntu 18.04</a> image with build tools for many languages.</li><li><strong>Block</strong>:  blocks group jobs with a similar purpose. Jobs in a block are executed in parallel and have similar commands and configurations. Once all jobs in a block complete, the next block begins.</li><li><strong>Job</strong>: jobs define the commands that do the work. They inherit their configuration from their parent block.</li></ul>
+
+
+
+<p>Let’s finish up setting up the initial pipeline:</p>
+
+
+
+<ul class="wp-block-list"><li>Click on the Test block.</li></ul>
+
+
+
+<ul class="wp-block-list"><li>Open the <strong>Environment Variables</strong> section, add the following variable using the <strong>+Add env_var</strong> link: <code>APP_ENV = local</code>. We need to clearly state that this is not a production environment, otherwise Dusk will refuse to run.</li></ul>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img decoding="async" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/Screenshot223.webp" alt="" class="wp-image-12609"></figure></div>
+
+
+
+<ul class="wp-block-list"><li>Click on <strong>Run the Workflow</strong> and then <strong>Start</strong>:</li></ul>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img decoding="async" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/Screenshot224-1.webp" alt="" class="wp-image-12608"></figure></div>
+
+
+
+<p>The pipeline starts immediately:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img decoding="async" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/Screenshot225.webp" alt="" class="wp-image-12610"></figure></div>
+
+
+
+<h2 class="wp-block-heading" id="h-optimizing-the-pipeline">Optimizing the Pipeline</h2>
+
+
+
+<p>The started pipeline can be further optimized by:</p>
+
+
+
+<ul class="wp-block-list"><li>Storing the composer modules in the cache, so they don’t have to be downloaded every time.</li><li>Separating the install and test steps into two blocks.</li><li>Running the Laravel Dusk browser tests.</li></ul>
+
+
+
+<p>Let’s modify the pipeline to run faster. Using <a href="https://semaphore.io/blog/revving-up-continuous-integration-with-parallel-testing">parallel testing</a>, we’ll use this opportunity speed up the pipeline by running two tests at the same time:</p>
+
+
+
+<ul class="wp-block-list"><li>Use the <strong>Edit Workflow</strong> button to open the workflow builder again.</li><li>Click on the test block and rename it to “Install”</li><li>Rename the job to “Composer”</li><li>Replace the commands in the job with the following:</li></ul>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">sem-version php <span class="token number">7.4</span>
+checkout
+cache restore
+<span class="token function">composer</span> <span class="token function">install</span>
+<span class="token function">npm</span> <span class="token function">install</span>
+cache store</code></pre>
+
+
+
+<p>We’re using some of the many Semaphore <a href="https://docs.semaphoreci.com/reference/toolbox-reference/">toolbox</a> commands:</p>
+
+
+
+<ul class="wp-block-list"><li><strong>checkout</strong>: this is a Semaphore built-in command that clones the GitHub repository into the CI environment.</li><li><strong>sem-version</strong>: activates a particular version for a language. Semaphore supports most current <a href="https://docs.semaphoreci.com/programming-languages/php/">PHP versions</a>.</li><li><strong>cache</strong>: To speed up jobs, Semaphore provides the&nbsp;<a href="https://docs.semaphoreci.com/reference/toolbox-reference/">cache</a>&nbsp;tool. You can run <code>store</code> and <code>restore</code> to your preserve downloaded modules in Semaphore’s cache. The cache automatically figures out which files and directories should be stored. </li></ul>
+
+
+
+<p>Now we can re-add the test block:</p>
+
+
+
+<ul class="wp-block-list"><li>Use the <strong>+Add Block</strong> dotted line button to create a new block.</li><li>Set the name of the block to “Test”</li><li>Open the <strong>Environment Variable</strong> section and add the variable: <code>APP_ENV = local</code></li><li>Open the <strong>Prologue</strong> section. The prologue is executed before each job in the block. Type the following commands:</li></ul>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">sem-version php <span class="token number">7.4</span>
+checkout
+cache restore
+<span class="token function">cp</span> .env.example .env
+php artisan key:generate
+<span class="token function">mkdir</span> -p database
+<span class="token function">touch</span> database/database.sqlite</code></pre>
+
+
+
+<ul class="wp-block-list"><li>Set the name of the job to “phpunit”</li><li>Type the following commands in the job:</li></ul>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">./vendor/bin/phpunit</code></pre>
+
+
+
+<ul class="wp-block-list"><li>Click on <strong>Add job</strong> to create a new job in the Test block. Set its name to “dusk”.</li><li>Type the following commands in the dusk job. We need to install the Chrome Web Driver that matches the version of Google Chrome in Semaphore, which currently is version 79:</li></ul>
+
+
+
+<pre class="wp-block-code language-bash" tabindex="0"><code lang="bash" class="language-bash">php artisan dusk:chrome-driver <span class="token number">79</span>
+php artisan serve --env<span class="token operator">=</span>.env.dusk.local --port<span class="token operator">=</span><span class="token number">8010</span> <span class="token operator">&amp;</span>
+php artisan dusk</code></pre>
+
+
+
+<ul class="wp-block-list"><li>Use <strong>Run the Workflow</strong> and then <strong>Start</strong> to try the new pipeline:</li></ul>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img decoding="async" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/Screenshot226.webp" alt="" class="wp-image-12612"></figure></div>
+
+
+
+<p>This optimized pipeline is a solid foundation for your Laravel projects.</p>
+
+
+
+<h2 class="wp-block-heading" id="h-next-reads">Next Reads</h2>
+
+
+
+<p>Don’t miss these great tutorials on PHP, Laravel and Continuous Integration:</p>
+
+
+
+<ul class="wp-block-list"><li><a href="https://semaphore.io/blog/7-continuous-integration-tools-for-php-laravel">7 Continuous Integration Tools for PHP Laravel Developers</a></li><li><a href="https://semaphore.io/community/tutorials/dockerizing-a-php-application">Dockerizing a PHP Application</a></li><li><a href="https://docs.semaphoreci.com/programming-languages/php/">Semapore PHP support page</a></li></ul>
+
+
+
+<h2 class="wp-block-heading" id="h-conclusion">Conclusion</h2>
+
+
+
+<p>You should notice a common theme across all of the tests that we have written in this tutorial: they are all incredibly simple. This is one of the benefits of learning how to use the basic test assertions and helpers, and trying to use them as much as possible. The simpler you can write your tests, the easier your tests will be to understand and maintain.</p>
+
+
+
+<p>Once you have mastered the PHPUnit assertions we have covered in this tutorial, you can find a lot more in the <a href="https://phpunit.readthedocs.io/en/9.0/">PHPUnit documentation</a>. They all follow the same basic pattern, but you will find that you keep coming back to the basic assertions for most of your tests.</p>
+
+
+
+<p>Laravel’s test helpers are a fantastic compliment to the PHPUnit assertions, and make testing your application templates easy. That said, it is important to recognize that, as part of our tests, we only checked the critical information – not the entire page. This keeps the tests simple, and allows the page content to change as the application changes. If the critical content still exists, the test still passes, and everyone is happy.</p>
+
+
+	</div><!-- .entry-content -->
+	<div id="blog-sidebar" class="sidebar">
+		<div id="sticky-sidebar">
+			<div class="subscribe-podcast">
+				<img class="uncut-thumbs" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/podcast-thumbs.webp" width="129" height="129">				<div class="wrap">
+				<h3>Semaphore Uncut Podcast 🎙️</h3>
+				<a class="uncut-link" href="https://semaphoreci.com/podcast">Listen now</a>
+				<div class="social-podcasts">
+<a href="https://podcasts.apple.com/us/podcast/semaphore-uncut/id1463768812" class="apple f-sixteen" target="_blank"></a>
+<a href="https://open.spotify.com/show/6Tqtzmt78HtlMeNROHAgzh" class="spotify f-sixteen" target="_blank"></a>
+<a href="https://www.youtube.com/playlist?list=PL9pxz3ccLeuh3EEPcSQvHzQPYreatKK7j" class="youtube f-sixteen" target="_blank"></a>
+</div>
+</div>
+
+			</div>
+			<div class="subscribe-sidebar">
+				<h3>CI/CD Weekly Newsletter 🔔</h3>
+			
+<div class="wpcf7 js" id="wpcf7-f20434-p10639-o2" lang="en-US" dir="ltr" data-wpcf7-id="20434">
+<div class="screen-reader-response"><p role="status" aria-live="polite" aria-atomic="true"></p> <ul></ul></div>
+<form action="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#wpcf7-f20434-p10639-o2" method="post" class="wpcf7-form init mailchimp-ext-0.5.72" aria-label="Contact form" novalidate="novalidate" data-status="init">
+<div style="display: none;">
+<input type="hidden" name="_wpcf7" value="20434">
+<input type="hidden" name="_wpcf7_version" value="6.0.6">
+<input type="hidden" name="_wpcf7_locale" value="en_US">
+<input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f20434-p10639-o2">
+<input type="hidden" name="_wpcf7_container_post" value="10639">
+<input type="hidden" name="_wpcf7_posted_data_hash" value="">
+<input type="hidden" name="_cf7a__timestamp" value="ENO512qbgy2bZgL5Jfkw4g==">
+<input type="hidden" name="_cf7a_version" value="mROd9dmLSKc8mHehZT6fNQ==">
+<input type="hidden" name="_cf7a_address" value="/fKvniVhZUkFPQWkYsxHYw==">
+<input type="hidden" name="_cf7a_referer" value="TLadhgU2p2ABWX6F/URhGg==">
+<input type="hidden" name="_cf7a_protocol" value="/pcFoPWqCVGdJo1UrWs5lg==">
+<input type="hidden" name="_cf7a_bot_fingerprint" value="ENO51">
+<input type="hidden" name="_cf7a_bot_fingerprint_extras" value="">
+<input type="hidden" name="_cf7a_append_on_submit" value="">
+<input type="hidden" name="_cf7a_timezone" value="Africa/Cairo"><input type="hidden" name="_cf7a_platform" value="Win32"><input type="hidden" name="_cf7a_screens" value="[1366,768]"><input type="hidden" name="_cf7a_memory" value="8"><input type="hidden" name="_cf7a_user_agent" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"><input type="hidden" name="_cf7a_app_version" value="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"><input type="hidden" name="_cf7a_webdriver" value="true"><input type="hidden" name="_cf7a_session_storage" value="1"><input type="hidden" name="_cf7a_isEdge" value="true"><input type="hidden" name="_cf7a_webgl" value="passed"><input type="hidden" name="_cf7a_webgl_render" value="passed"><input type="hidden" name="_cf7a_mousemove_activity" value="passed"><input type="hidden" name="_cf7a_activity" value="5"><input type="hidden" name="_cf7a_mouseclick_activity" value="passed"></div>
+<div class="mc4wp-form-fields"><span class="wpcf7-form-control-wrap" data-name="your-email"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email" aria-required="true" aria-invalid="false" placeholder="Your email" value="" type="email" name="your-email"></span><input class="wpcf7-form-control wpcf7-submit has-spinner" type="submit" value="Subscribe"><span class="wpcf7-spinner"></span></div>
+<style>
+.wpcf7-form.sent .mc4wp-form-fields
+{
+display:none!important;
+}
+</style><p style="display: none !important;" class="akismet-fields-container" data-prefix="_wpcf7_ak_"><label>Δ<textarea name="_wpcf7_ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea></label><input type="hidden" id="ak_js_2" name="_wpcf7_ak_js" value="1746510219057"><script>document.getElementById( "ak_js_2" ).setAttribute( "value", ( new Date() ).getTime() );</script></p><div class="wpcf7-response-output" aria-hidden="true"></div><p style="display: none !important"><span class="wpcf7-form-control-wrap referer-page"><input type="hidden" name="referer-page" value="http://Direct%20Visit" data-value="http://Direct%20Visit" class="wpcf7-form-control wpcf7-text referer-page" aria-invalid="false"></span></p>
+<!-- Chimpmatic extension by Renzo Johnson -->
+</form>
+</div>
+			</div>
+<div class="learn-ci-cd">
+	<h3>Learn CI/CD</h3>
+	<p>Level up your developer skills to use CI/CD at its max.</p>
+	<a class="button f-sixteen" href="https://semaphoreci.com/cicd-learning-tool?utm_medium=widget&amp;utm_source=blog&amp;utm_campaign=cicdtool">Start Learning</a>
+</div>
+	</div>
+	</div>
+	</div><!-- .single-inner-wrap -->
+<!-- .entry-footer -->
+
+</article><!-- #post-10639 -->
+<div class="prev-next">
+                        <span class="prev">
+                         <a href="https://semaphore.io/community/tutorials/getting-started-with-node-js-and-mocha" rel="next">Next post</a>                        </span>
+                        <span class="next">
+                        <a href="https://semaphore.io/community/tutorials/getting-started-with-rspec" rel="prev">Previous post</a>							</span>
+							
+</div>
+
+
+		<div class="author-wrap-bottom">
+	<div class="f-author-wrap">
+<div class="image"><img alt="mm" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/618f1bd6dc7e805443e64bdcd5ca692c.jpeg" class="avatar avatar-80 photo" height="80" width="80"></div>
+<div class="info">
+<div class="rev-info f-fourteen">Writen by:</div>
+<div class="name f-twenty-six"><a href="https://semaphore.io/author/stephenreescarter">Stephen Rees-Carter</a> <div class="social-links"><div class="author-twitter"></div>
+<div class="author-linkedIn"></div></div></div>
+<div class="author-description f-twenty">Senior PHP developer, specialising in Laravel and the extended ecosystem around elegant web applications. Located in Australia and online at <a href="https://stephen.rees-carter.net/">stephen.rees-carter.net</a>.</div>
+</div>
+
+</div>
+
+
+
+
+<div id="comments" class="comments-area">
+
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#respond" style="display:none;">Cancel reply</a></small></h3><form action="https://semaphore.io/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate=""><p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> <span class="required-field-message">Required fields are marked <span class="required">*</span></span></p><p class="comment-form-comment"><label for="comment">Comment <span class="required">*</span></label> <textarea autocomplete="new-password" id="comment" name="cfde7d68b3" cols="45" rows="8" maxlength="65525" required=""></textarea><textarea id="afaa9ee69fc3b3abcbcfc1e09522e318" aria-label="hp-comment" aria-hidden="true" name="comment" autocomplete="new-password" style="padding:0 !important;clip:rect(1px, 1px, 1px, 1px) !important;position:absolute !important;white-space:nowrap !important;height:1px !important;width:1px !important;overflow:hidden !important;" tabindex="-1"></textarea><script data-noptimize="">document.getElementById("comment").setAttribute( "id", "afaa9ee69fc3b3abcbcfc1e09522e318" );document.getElementById("cfde7d68b3").setAttribute( "id", "comment" );</script></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" autocomplete="name" required=""></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" autocomplete="email" required=""></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="10639" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="e47b6a49ec"></p><p style="display: none !important;" class="akismet-fields-container" data-prefix="ak_"><label>Δ<textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea></label><input type="hidden" id="ak_js_3" name="ak_js" value="1746510219057"><script>document.getElementById( "ak_js_3" ).setAttribute( "value", ( new Date() ).getTime() );</script></p></form>	</div><!-- #respond -->
+	
+</div><!-- #comments -->
+
+			
+
+		</div></main><!-- #main -->
+<div class="footer-subs subscribe-blog-footer">
+		<div style="height:100px" aria-hidden="true" class="wp-block-spacer is-style-spacer-medium"></div>
+<div id="block-23">
+<div class="wp-block-group is-layout-constrained wp-container-core-group-is-layout-f67d4fbf wp-block-group-is-layout-constrained">
+<div class="wp-block-group alignfull is-style-default has-background is-layout-constrained wp-container-core-group-is-layout-8bb3df11 wp-block-group-is-layout-constrained" style="background:linear-gradient(42deg,rgb(74,30,87) 0%,rgb(119,53,139) 100%);padding-top:4%;padding-right:4%;padding-bottom:4%;padding-left:4%">
+<div class="wp-block-columns are-vertically-aligned-center is-layout-flex wp-container-core-columns-is-layout-56ca3925 wp-block-columns-is-layout-flex" style="margin-bottom:0px">
+<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow">
+<h4 class="wp-block-heading has-v-8-white-color has-text-color has-link-color has-font-up-6-font-size wp-elements-9991b62c1f1e407df3a7713dcb3e35a5" style="margin-top:0px;margin-bottom:10px">CI/CD Weekly Newsletter 🔔</h4>
+</div>
+
+
+
+<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow">
+<div class="wp-block-contact-form-7-contact-form-selector is-style-v8-transparent-black">
+<div class="wpcf7 js" id="wpcf7-f20434-o3" lang="en-US" dir="ltr" data-wpcf7-id="20434">
+<div class="screen-reader-response"><p role="status" aria-live="polite" aria-atomic="true"></p> <ul></ul></div>
+<form action="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#wpcf7-f20434-o3" method="post" class="wpcf7-form init mailchimp-ext-0.5.72" aria-label="Contact form" novalidate="novalidate" data-status="init">
+<div style="display: none;">
+<input type="hidden" name="_wpcf7" value="20434">
+<input type="hidden" name="_wpcf7_version" value="6.0.6">
+<input type="hidden" name="_wpcf7_locale" value="en_US">
+<input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f20434-o3">
+<input type="hidden" name="_wpcf7_container_post" value="0">
+<input type="hidden" name="_wpcf7_posted_data_hash" value="">
+<input type="hidden" name="_cf7a__timestamp" value="ENO512qbgy2bZgL5Jfkw4g==">
+<input type="hidden" name="_cf7a_version" value="mROd9dmLSKc8mHehZT6fNQ==">
+<input type="hidden" name="_cf7a_address" value="/fKvniVhZUkFPQWkYsxHYw==">
+<input type="hidden" name="_cf7a_referer" value="TLadhgU2p2ABWX6F/URhGg==">
+<input type="hidden" name="_cf7a_protocol" value="/pcFoPWqCVGdJo1UrWs5lg==">
+<input type="hidden" name="_cf7a_bot_fingerprint" value="ENO51">
+<input type="hidden" name="_cf7a_bot_fingerprint_extras" value="">
+<input type="hidden" name="_cf7a_append_on_submit" value="">
+<input type="hidden" name="_cf7a_timezone" value="Africa/Cairo"><input type="hidden" name="_cf7a_platform" value="Win32"><input type="hidden" name="_cf7a_screens" value="[1366,768]"><input type="hidden" name="_cf7a_memory" value="8"><input type="hidden" name="_cf7a_user_agent" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"><input type="hidden" name="_cf7a_app_version" value="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"><input type="hidden" name="_cf7a_webdriver" value="true"><input type="hidden" name="_cf7a_session_storage" value="1"><input type="hidden" name="_cf7a_isEdge" value="true"><input type="hidden" name="_cf7a_webgl" value="passed"><input type="hidden" name="_cf7a_webgl_render" value="passed"><input type="hidden" name="_cf7a_mousemove_activity" value="passed"><input type="hidden" name="_cf7a_activity" value="6"><input type="hidden" name="_cf7a_mouseclick_activity" value="passed"></div>
+<div class="mc4wp-form-fields"><span class="wpcf7-form-control-wrap" data-name="your-email"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email" aria-required="true" aria-invalid="false" placeholder="Your email" value="" type="email" name="your-email"></span><input class="wpcf7-form-control wpcf7-submit has-spinner" type="submit" value="Subscribe"><span class="wpcf7-spinner"></span></div>
+<style>
+.wpcf7-form.sent .mc4wp-form-fields
+{
+display:none!important;
+}
+</style><p style="display: none !important;" class="akismet-fields-container" data-prefix="_wpcf7_ak_"><label>Δ<textarea name="_wpcf7_ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea></label><input type="hidden" id="ak_js_4" name="_wpcf7_ak_js" value="1746510219058"><script>document.getElementById( "ak_js_4" ).setAttribute( "value", ( new Date() ).getTime() );</script></p><div class="wpcf7-response-output" aria-hidden="true"></div><p style="display: none !important"><span class="wpcf7-form-control-wrap referer-page"><input type="hidden" name="referer-page" value="http://Direct%20Visit" data-value="http://Direct%20Visit" class="wpcf7-form-control wpcf7-text referer-page" aria-invalid="false"></span></p>
+<!-- Chimpmatic extension by Renzo Johnson -->
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>	
+</div>
+
+	</div><!-- #primary -->
+
+	</div><!-- #content -->
+
+
+<!-- V8 footer-->
+
+<div class="starus" style="display: none;"><span>Star us on GitHub</span>
+<div class="github">
+    <div class="github-star-count">
+		<a class="repo" target="_blank" href="https://github.com/semaphoreio/semaphore/"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6.97846 0C5.10528 0.0238765 3.31817 0.791925 2.00976 2.1354C0.701349 3.47888 -0.0213357 5.2879 0.000479939 7.165C-0.00507392 8.65342 0.448463 10.1072 1.29903 11.3274C2.1496 12.5476 3.35565 13.4747 4.75215 13.9817C4.80682 13.9978 4.86447 14.001 4.92056 13.9909C4.97665 13.9809 5.02964 13.9579 5.07533 13.9238C5.12103 13.8897 5.15819 13.8454 5.18388 13.7944C5.20956 13.7434 5.22307 13.6872 5.22333 13.6301V12.4014C3.29608 12.8409 2.86876 11.4338 2.86876 11.4338C2.75257 10.9981 2.47778 10.6217 2.09853 10.3789C1.45655 9.93937 2.14106 9.93937 2.14106 9.93937C2.36418 9.97497 2.57636 10.0607 2.76167 10.1903C2.94698 10.3198 3.10061 10.4897 3.21102 10.6872C3.30015 10.8626 3.42362 11.0181 3.57406 11.1446C3.72451 11.2711 3.89883 11.3659 4.08664 11.4234C4.27445 11.4809 4.4719 11.4999 4.66719 11.4793C4.86249 11.4586 5.05163 11.3987 5.22333 11.3032C5.24802 10.9403 5.39956 10.5977 5.65132 10.3356C4.11018 10.1618 2.48331 9.54313 2.48331 6.77209C2.46636 6.05595 2.72749 5.36117 3.21168 4.83416C3.01916 4.22921 3.04863 3.57524 3.29475 2.99014C3.29475 2.99014 3.89286 2.81432 5.222 3.738C5.79253 3.57593 6.38435 3.50183 6.97713 3.51824C7.56866 3.52366 8.15759 3.5974 8.73226 3.738C10.0614 2.81432 10.6595 2.99014 10.6595 2.99014C10.9049 3.5918 10.9352 4.25996 10.7452 4.88145C11.2194 5.41372 11.4799 6.10322 11.4763 6.81671C11.4763 9.58708 9.8494 10.1591 8.30826 10.3349C8.47573 10.5087 8.60436 10.7163 8.6856 10.9437C8.76684 11.1712 8.79883 11.4134 8.77944 11.6542V13.6334C8.77971 13.6905 8.79321 13.7468 8.8189 13.7977C8.84458 13.8487 8.88174 13.893 8.92744 13.9271C8.97314 13.9612 9.02613 13.9842 9.08222 13.9942C9.13831 14.0043 9.19596 14.0011 9.25062 13.985C10.6519 13.4847 11.8626 12.5588 12.7138 11.3363C13.5651 10.1138 14.0146 8.65562 13.9996 7.165C14.0046 5.2855 13.2705 3.47969 11.9564 2.13863C10.6422 0.797582 8.85384 0.0292405 6.97846 0Z" fill="#0D1421"></path></svg>Star
+</a>
+<a class="count" target="_blank" href="https://github.com/semaphoreio/semaphore/stargazers"><div class="github-star-counter">1037</div></a>
+    </div>
+
+</div>
+<div class="close"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <mask id="mask0_2249_425" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+    <rect width="20" height="20" fill="#D9D9D9"></rect>
+  </mask>
+  <g mask="url(#mask0_2249_425)">
+    <path d="M6.0625 15L5 13.9375L8.9375 10L5 6.0625L6.0625 5L10 8.9375L13.9375 5L15 6.0625L11.0625 10L15 13.9375L13.9375 15L10 11.0625L6.0625 15Z" fill="#838B9C"></path>
+  </g>
+</svg></div>
+<script>
+  // 1) If the user has NOT closed it this session, show it
+  if (sessionStorage.getItem('starusClosed') !== 'true') {
+    document.querySelector('.starus').style.display = 'flex';
+  }
+
+  // 2) On close click, hide and remember
+  const closeBtn = document.querySelector('.starus .close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function() {
+      document.querySelector('.starus').style.display = 'none';
+      sessionStorage.setItem('starusClosed', 'true');
+    });
+  }
+</script>
+
+</div>
+<footer id="colophon" class="site-footer v8 ">
+	<div class="wrap">
+<div id="block-26">
+<div style="height:6vw" aria-hidden="true" class="wp-block-spacer"></div>
+</div><div id="block-16">
+<div class="wp-block-columns is-layout-flex wp-container-core-columns-is-layout-28f84493 wp-block-columns-is-layout-flex">
+<div class="wp-block-column is-content-justification-left is-layout-constrained wp-container-core-column-is-layout-a4b6bd59 wp-block-column-is-layout-constrained" style="flex-basis:30%">
+<p class="has-v-8-white-color has-text-color has-link-color has-font-up-2-font-size wp-elements-02aec0410fcd56f0c90df61ea246301f" style="margin-top:20px;margin-bottom:10px;font-style:normal;font-weight:700">The Open Source CI/CD Platform.</p>
+
+
+
+<p class="is-style-arrow-link has-v-8-blue-color has-text-color has-link-color has-font-down-2-font-size wp-elements-89ecbdd7bffb9737b85acfe8fb8bfece" style="margin-top:0px;font-style:normal;font-weight:700"><a href="https://semaphore.io/about" data-type="link" data-id="https://semaphore.io/about">Learn more</a> <img loading="lazy" decoding="async" width="13" height="12" class="wp-image-25606" style="width: 13px;" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/arrow-white.svg" alt=""></p>
+
+
+
+<div class="wp-block-group links is-nowrap is-layout-flex wp-container-core-group-is-layout-2835232a wp-block-group-is-layout-flex" style="margin-top:40px">
+<figure class="wp-block-image size-full is-style-vertical-alignmiddle"><a href="https://x.com/semaphoreci" target="_blank" rel=" noreferrer noopener"><img loading="lazy" decoding="async" width="20" height="19" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/x.svg" alt="" class="wp-image-25748"></a></figure>
+
+
+
+<figure class="wp-block-image size-full is-style-vertical-alignmiddle"><a href="https://www.youtube.com/c/SemaphoreCI" target="_blank" rel=" noreferrer noopener"><img loading="lazy" decoding="async" width="20" height="15" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/youtube.svg" alt="" class="wp-image-25749"></a></figure>
+
+
+
+<figure class="wp-block-image size-full is-style-vertical-alignmiddle"><a href="https://discord.gg/FBuUrV24NH" target="_blank" rel=" noreferrer noopener"><img loading="lazy" decoding="async" width="20" height="20" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/discord.svg" alt="" class="wp-image-25750"></a></figure>
+
+
+
+<figure class="wp-block-image size-full is-style-vertical-alignmiddle"><a href="https://github.com/semaphoreio" target="_blank" rel=" noreferrer noopener"><img loading="lazy" decoding="async" width="20" height="20" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/github.svg" alt="" class="wp-image-25751"></a></figure>
+
+
+
+<figure class="wp-block-image size-full is-style-vertical-alignmiddle"><a href="https://www.linkedin.com/company/semaphoreci" target="_blank" rel=" noreferrer noopener"><img loading="lazy" decoding="async" width="20" height="20" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/linkedin.svg" alt="" class="wp-image-25752"></a></figure>
+
+
+
+<figure class="wp-block-image size-full is-resized is-style-vertical-alignmiddle"><a href="https://bsky.app/profile/semaphoreio.bsky.social" target="_blank" rel=" noreferrer noopener"><img loading="lazy" decoding="async" width="24" height="21" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/bluesky.svg" alt="" class="wp-image-25871" style="width:24px;height:auto"></a></figure>
+</div>
+</div>
+
+
+
+<div class="wp-block-column halfsizeonmobile is-layout-flow wp-block-column-is-layout-flow">
+<h2 class="wp-block-heading has-v-8-white-color has-text-color has-link-color has-font-down-2-font-size wp-elements-5aef946c345ca83ec48c836691357913" style="margin-top:0px;margin-bottom:20px;font-style:normal;font-weight:700">Resources</h2>
+
+
+
+<p class="is-style-no-link-underline has-link-color has-font-down-2-font-size wp-elements-1a5484ddea9fb84ebe157c4885c09720" style="margin-top:8px;margin-bottom:8px"><a href="https://semaphore.io/hiring">We're hiring</a> <img decoding="async" draggable="false" role="img" class="emoji" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/1f91d-1f3fd.svg" alt="🤝🏽"></p>
+
+
+
+<p class="is-style-no-link-underline has-link-color has-font-down-2-font-size wp-elements-4dfde036c428738addc196431398084e" style="margin-top:8px;margin-bottom:8px"><a href="https://semaphore.io/blog">Blog</a></p>
+
+
+
+<p class="is-style-no-link-underline has-link-color has-font-down-2-font-size wp-elements-f50aa1ffcfe2880e620ecc851173ca9c" style="margin-top:8px;margin-bottom:8px"><a href="https://semaphore.io/podcast">Podcast</a> <img decoding="async" draggable="false" role="img" class="emoji" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/1f399.svg" alt="🎙️"></p>
+
+
+
+<p class="is-style-no-link-underline has-link-color has-font-down-2-font-size wp-elements-311ec9b6d9437f5ab19e5e69b93d6147" style="margin-top:8px;margin-bottom:8px"><a href="https://semaphore.io/resources">Resources</a></p>
+
+
+
+<p class="is-style-no-link-underline has-link-color has-font-down-2-font-size wp-elements-cf3b24a42341d3ce24a0039ccd4f4346" style="margin-top:8px;margin-bottom:8px"><a href="https://semaphore.io/newsletter">Newsletter</a></p>
+
+
+
+<p class="is-style-no-link-underline has-link-color has-font-down-2-font-size wp-elements-8c72825a74e0d11108b84e378a554921" style="margin-top:8px;margin-bottom:8px"></p>
+</div>
+
+
+
+<div class="wp-block-column halfsizeonmobile is-layout-flow wp-block-column-is-layout-flow">
+<h2 class="wp-block-heading has-v-8-white-color has-text-color has-link-color has-font-down-2-font-size wp-elements-b2a7c619d12dadcd20ef9980651e47ef" style="margin-top:0px;margin-bottom:20px;font-style:normal;font-weight:700">Product</h2>
+
+
+
+<p class="is-style-no-link-underline has-link-color has-font-down-2-font-size wp-elements-76ddc4d70b1614334bc893bd3b6d4e6f" style="margin-top:8px;margin-bottom:8px"><a href="https://semaphore.io/pricing">Pricing</a> <img decoding="async" draggable="false" role="img" class="emoji" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/1f4b0.svg" alt="💰"></p>
+
+
+
+<p class="is-style-no-link-underline has-link-color has-font-down-2-font-size wp-elements-216b4bb7f99d2d56686c48cc6ad45c41" style="margin-top:8px;margin-bottom:8px"><a href="https://docs.semaphoreci.com/">Docs</a></p>
+
+
+
+<p class="is-style-no-link-underline has-link-color has-font-down-2-font-size wp-elements-a1ef4033f728b3ff765cca5d3d4e3a58" style="margin-top:8px;margin-bottom:8px"><a href="https://semaphore.io/customers">Customers</a></p>
+
+
+
+<p class="is-style-no-link-underline has-link-color has-font-down-2-font-size wp-elements-3bbc17105aa3b3952b4d7f7cbea3f518" style="margin-top:8px;margin-bottom:8px"><a href="https://semaphore.io/product/premium-support">Premium Support</a></p>
+
+
+
+<p class="is-style-no-link-underline has-link-color has-font-down-2-font-size wp-elements-4bf53d2d5ca983c8e9437f005dc99f21" style="margin-top:8px;margin-bottom:8px"><a href="https://status.semaphoreci.com/">System Status</a></p>
+
+
+
+<p class="is-style-no-link-underline has-link-color has-font-down-2-font-size wp-elements-f08451c9f0d9f63edd3de64ada96605f" style="margin-top:8px;margin-bottom:8px"><a href="https://semaphore.io/security">Security</a></p>
+</div>
+
+
+
+<div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:30%">
+<div class="wp-block-group is-nowrap is-layout-flex wp-container-core-group-is-layout-542c142b wp-block-group-is-layout-flex">
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="87" height="87" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/aicpa-soc.svg" alt="" class="wp-image-25755"></figure>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="87" height="87" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/iso-27001.svg" alt="" class="wp-image-25754"></figure>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="94" height="122" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/Group-30913.svg" alt="" class="wp-image-23443" style="width:76px"></figure>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="94" height="122" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/Group-30914.svg" alt="" class="wp-image-23444" style="width:76px"></figure>
+
+
+
+<figure class="wp-block-image size-full is-resized"><img loading="lazy" decoding="async" width="94" height="122" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/high-performer.svg" alt="" class="wp-image-23446" style="width:76px"></figure>
+</div>
+
+
+
+<div class="wp-block-contact-form-7-contact-form-selector is-style-v8-transparent">
+<div class="wpcf7 js" id="wpcf7-f20434-o4" lang="en-US" dir="ltr" data-wpcf7-id="20434">
+<div class="screen-reader-response"><p role="status" aria-live="polite" aria-atomic="true"></p> <ul></ul></div>
+<form action="https://semaphore.io/community/tutorials/getting-started-with-phpunit-in-laravel#wpcf7-f20434-o4" method="post" class="wpcf7-form init mailchimp-ext-0.5.72" aria-label="Contact form" novalidate="novalidate" data-status="init">
+<div style="display: none;">
+<input type="hidden" name="_wpcf7" value="20434">
+<input type="hidden" name="_wpcf7_version" value="6.0.6">
+<input type="hidden" name="_wpcf7_locale" value="en_US">
+<input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f20434-o4">
+<input type="hidden" name="_wpcf7_container_post" value="0">
+<input type="hidden" name="_wpcf7_posted_data_hash" value="">
+<input type="hidden" name="_cf7a__timestamp" value="ENO512qbgy2bZgL5Jfkw4g==">
+<input type="hidden" name="_cf7a_version" value="mROd9dmLSKc8mHehZT6fNQ==">
+<input type="hidden" name="_cf7a_address" value="/fKvniVhZUkFPQWkYsxHYw==">
+<input type="hidden" name="_cf7a_referer" value="TLadhgU2p2ABWX6F/URhGg==">
+<input type="hidden" name="_cf7a_protocol" value="/pcFoPWqCVGdJo1UrWs5lg==">
+<input type="hidden" name="_cf7a_bot_fingerprint" value="ENO51">
+<input type="hidden" name="_cf7a_bot_fingerprint_extras" value="">
+<input type="hidden" name="_cf7a_append_on_submit" value="">
+<input type="hidden" name="_cf7a_timezone" value="Africa/Cairo"><input type="hidden" name="_cf7a_platform" value="Win32"><input type="hidden" name="_cf7a_screens" value="[1366,768]"><input type="hidden" name="_cf7a_memory" value="8"><input type="hidden" name="_cf7a_user_agent" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"><input type="hidden" name="_cf7a_app_version" value="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"><input type="hidden" name="_cf7a_webdriver" value="true"><input type="hidden" name="_cf7a_session_storage" value="1"><input type="hidden" name="_cf7a_isEdge" value="true"><input type="hidden" name="_cf7a_webgl" value="passed"><input type="hidden" name="_cf7a_webgl_render" value="passed"><input type="hidden" name="_cf7a_mousemove_activity" value="passed"><input type="hidden" name="_cf7a_activity" value="3"><input type="hidden" name="_cf7a_mouseclick_activity" value="passed"></div>
+<div class="mc4wp-form-fields"><span class="wpcf7-form-control-wrap" data-name="your-email"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email" aria-required="true" aria-invalid="false" placeholder="Your email" value="" type="email" name="your-email"></span><input class="wpcf7-form-control wpcf7-submit has-spinner" type="submit" value="Subscribe"><span class="wpcf7-spinner"></span></div>
+<style>
+.wpcf7-form.sent .mc4wp-form-fields
+{
+display:none!important;
+}
+</style><p style="display: none !important;" class="akismet-fields-container" data-prefix="_wpcf7_ak_"><label>Δ<textarea name="_wpcf7_ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea></label><input type="hidden" id="ak_js_5" name="_wpcf7_ak_js" value="1746510219060"><script>document.getElementById( "ak_js_5" ).setAttribute( "value", ( new Date() ).getTime() );</script></p><div class="wpcf7-response-output" aria-hidden="true"></div><p style="display: none !important"><span class="wpcf7-form-control-wrap referer-page"><input type="hidden" name="referer-page" value="http://Direct%20Visit" data-value="http://Direct%20Visit" class="wpcf7-form-control wpcf7-text referer-page" aria-invalid="false"></span></p>
+<!-- Chimpmatic extension by Renzo Johnson -->
+</form>
+</div>
+</div>
+
+
+
+<p class="has-text-color has-link-color has-font-down-4-font-size wp-elements-838eaf777649c643f2598cc4025ddd80" style="color:#838b9c">By clicking "Subscribe" you agree that your personal data will be processed in accordance with our <a href="https://semaphore.io/privacy">Privacy policy</a>.</p>
+</div>
+</div>
+</div><div id="block-29"></div><div id="block-32"></div><div id="block-17">
+<div style="height:6vw" aria-hidden="true" class="wp-block-spacer"></div>
+</div><div id="block-18">
+<div class="wp-block-group is-content-justification-space-between is-nowrap is-layout-flex wp-container-core-group-is-layout-cb46ffcb wp-block-group-is-layout-flex">
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="130" height="18" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/footer-logo.svg" alt="" class="wp-image-25747"></figure>
+
+
+
+<div class="wp-block-group is-nowrap is-layout-flex wp-container-core-group-is-layout-6c531013 wp-block-group-is-layout-flex">
+<p class="is-style-no-link-underline has-link-color has-font-down-3-font-size wp-elements-39323e24c82b7b72d7e345cab1d4ab74"><a href="https://semaphore.io/tos">Terms of Service</a></p>
+
+
+
+<p class="is-style-no-link-underline has-link-color has-font-down-3-font-size wp-elements-013907450732f01ed4de2cec20dfc719"><a href="https://semaphore.io/privacy">Privacy Policy</a></p>
+
+
+
+<p class="has-v-8-gray-color has-text-color has-link-color has-font-down-3-font-size wp-elements-a62296c5f4777c99ebae25b4bc21f680">© 2025 Semaphore Technologies doo. All rights reserved.</p>
+</div>
+</div>
+</div><div id="block-28"></div><div id="block-33"></div><div id="block-38">
+<div style="height:2vw" aria-hidden="true" class="wp-block-spacer"></div>
+</div></div>
+</footer>
+
+</div><!-- #page -->
+
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"\/*"},{"not":{"href_matches":["\/wp-*.php","\/wp-admin\/*","\/wp-content\/uploads\/*","\/wp-content\/*","\/wp-content\/plugins\/*","\/wp-content\/themes\/semaphoreci_v8\/*","\/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script type="text/javascript">
+function fetch_search(){
+var request = new XMLHttpRequest();
+var datafetch = document.getElementById('datafetch');
+request.open('POST', 'https://semaphore.io/wp-admin/admin-ajax.php', true);
+request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+request.onload = function () {
+  if (this.status >= 200 && this.status < 400) {
+	datafetch.innerHTML= this.response;
+  } else {
+    console.log('nothing here');
+  }
+};
+request.onerror = function() {
+  console.log('onerror');
+};
+var data = document.getElementById('s').value;
+request.send('action=data_fetch&keyword='+data);
+}
+</script>
+<style>body div .wpcf7-form .fit-the-fullspace{position:absolute;margin-left:-999em;}</style><style id="core-block-supports-inline-css">
+.wp-elements-8c60bddab5865fb318bf6e2db2f4e609 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-white);}.wp-elements-c6ad4891a3edab6709b371a0c977ac75 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-white);}.wp-elements-5fde08d3cdd54f9c17639c34d76b119d a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-white);}.wp-elements-9991b62c1f1e407df3a7713dcb3e35a5 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-white);}.wp-container-core-columns-is-layout-56ca3925{flex-wrap:nowrap;}.wp-container-core-group-is-layout-8bb3df11 > .alignfull{margin-right:calc(4% * -1);margin-left:calc(4% * -1);}.wp-container-core-group-is-layout-f67d4fbf > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width:1580px;margin-left:auto !important;margin-right:auto !important;}.wp-container-core-group-is-layout-f67d4fbf > .alignwide{max-width:1580px;}.wp-container-core-group-is-layout-f67d4fbf .alignfull{max-width:none;}.wp-elements-02aec0410fcd56f0c90df61ea246301f a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-white);}.wp-elements-89ecbdd7bffb9737b85acfe8fb8bfece a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-white);}.wp-elements-89ecbdd7bffb9737b85acfe8fb8bfece a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-container-core-group-is-layout-2835232a{flex-wrap:nowrap;gap:8%;}.wp-container-core-column-is-layout-a4b6bd59 > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width:250px;margin-left:0 !important;margin-right:auto !important;}.wp-container-core-column-is-layout-a4b6bd59 > .alignwide{max-width:250px;}.wp-container-core-column-is-layout-a4b6bd59 .alignfull{max-width:none;}.wp-elements-5aef946c345ca83ec48c836691357913 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-white);}.wp-elements-1a5484ddea9fb84ebe157c4885c09720 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-1a5484ddea9fb84ebe157c4885c09720 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-4dfde036c428738addc196431398084e a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-4dfde036c428738addc196431398084e a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-f50aa1ffcfe2880e620ecc851173ca9c a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-f50aa1ffcfe2880e620ecc851173ca9c a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-311ec9b6d9437f5ab19e5e69b93d6147 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-311ec9b6d9437f5ab19e5e69b93d6147 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-cf3b24a42341d3ce24a0039ccd4f4346 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-cf3b24a42341d3ce24a0039ccd4f4346 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-8c72825a74e0d11108b84e378a554921 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-gray);}.wp-elements-8c72825a74e0d11108b84e378a554921 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-b2a7c619d12dadcd20ef9980651e47ef a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-white);}.wp-elements-76ddc4d70b1614334bc893bd3b6d4e6f a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-76ddc4d70b1614334bc893bd3b6d4e6f a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-216b4bb7f99d2d56686c48cc6ad45c41 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-216b4bb7f99d2d56686c48cc6ad45c41 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-a1ef4033f728b3ff765cca5d3d4e3a58 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-a1ef4033f728b3ff765cca5d3d4e3a58 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-3bbc17105aa3b3952b4d7f7cbea3f518 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-3bbc17105aa3b3952b4d7f7cbea3f518 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-4bf53d2d5ca983c8e9437f005dc99f21 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-4bf53d2d5ca983c8e9437f005dc99f21 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-f08451c9f0d9f63edd3de64ada96605f a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-f08451c9f0d9f63edd3de64ada96605f a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-container-core-group-is-layout-542c142b{flex-wrap:nowrap;gap:0.5rem;align-items:flex-end;}.wp-elements-838eaf777649c643f2598cc4025ddd80 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-container-core-columns-is-layout-28f84493{flex-wrap:nowrap;}.wp-elements-0be043507eccff322c4364cde82aa9c8 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-white);}.wp-elements-37d161621cd3902fe0c4ed66be82b4a4 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-white);}.wp-elements-37d161621cd3902fe0c4ed66be82b4a4 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-3fba2f22c6881e84cd6aa06d3bc6d723 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-white);}.wp-elements-862450d9191c45914f343f65db1646ce a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-862450d9191c45914f343f65db1646ce a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-c85e455296fa3c6e0c17fae886aeaae6 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-c85e455296fa3c6e0c17fae886aeaae6 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-4cebff13f1ef40b49566ec094e41dbcf a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-4cebff13f1ef40b49566ec094e41dbcf a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-36dbd342a716d96f9852e9353c667b37 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-white);}.wp-elements-70256cf21d574ac56a94ccabbf6bbe6e a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-70256cf21d574ac56a94ccabbf6bbe6e a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-e63ed1fdb609416a651e4324d86e40b3 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-e63ed1fdb609416a651e4324d86e40b3 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-331075094c335f24f85a41c12ad12124 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-331075094c335f24f85a41c12ad12124 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-0ae91cc4256b7e3796d92c80aceba3d4 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-0ae91cc4256b7e3796d92c80aceba3d4 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-9aed8549ec3b0edf21088c3f5d3c3ecc a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-9aed8549ec3b0edf21088c3f5d3c3ecc a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-7e347f783cecae1f2b12768a2be850a1 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-white);}.wp-elements-0f8b4bca3bfbda416aff9c0a57e93489 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-white);}.wp-elements-0f8b4bca3bfbda416aff9c0a57e93489 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-25a7cd2f03282fd886f6b9bc92b8a8cf a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-white);}.wp-elements-6b609688451418ae62ecebbdd4b1e693 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-6b609688451418ae62ecebbdd4b1e693 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-1289366cb6058594e0ed46e56c540014 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-1289366cb6058594e0ed46e56c540014 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-128a58da0ffd78d648c4dd7b364b222a a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-128a58da0ffd78d648c4dd7b364b222a a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-ae642ae85fe52e1c74ece0a75c19c7fb a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-ae642ae85fe52e1c74ece0a75c19c7fb a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-bad647a73877bfba624452b87bafa2bb a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-bad647a73877bfba624452b87bafa2bb a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-7c272585d4aa4b9951356d35c59ee345 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-7c272585d4aa4b9951356d35c59ee345 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-e3563eed3e38d7ebfa96a696ea459183 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-e3563eed3e38d7ebfa96a696ea459183 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-de27edb7a746f3a35bc3e0ae4670157b a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-de27edb7a746f3a35bc3e0ae4670157b a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-14b0ad0153ec3958ddf749d5c19b85e9 a:where(:not(.wp-element-button)){color:#838b9c;}.wp-elements-14b0ad0153ec3958ddf749d5c19b85e9 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-39323e24c82b7b72d7e345cab1d4ab74 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-gray);}.wp-elements-39323e24c82b7b72d7e345cab1d4ab74 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-013907450732f01ed4de2cec20dfc719 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-gray);}.wp-elements-013907450732f01ed4de2cec20dfc719 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-a62296c5f4777c99ebae25b4bc21f680 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-gray);}.wp-container-core-group-is-layout-6c531013{flex-wrap:nowrap;}.wp-container-core-group-is-layout-cb46ffcb{flex-wrap:nowrap;justify-content:space-between;}.wp-elements-d425c4606ffb2806122b2a3cac799b48 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-gray);}.wp-elements-d425c4606ffb2806122b2a3cac799b48 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-36785c4b2a2d695a3732f37cc5767b20 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-gray);}.wp-elements-36785c4b2a2d695a3732f37cc5767b20 a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-e096124dcbdeeac694bacafbdf82885b a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-gray);}.wp-elements-8cb7f358f0b54220ff27307f9dd5135f a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-gray);}.wp-elements-8cb7f358f0b54220ff27307f9dd5135f a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-5bdeae37750cdd1d761d26d2eaac8d8f a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-gray);}.wp-elements-5bdeae37750cdd1d761d26d2eaac8d8f a:where(:not(.wp-element-button)):hover{color:var(--wp--preset--color--v-8-white);}.wp-elements-ca0090bff1436ad6659a6aa3598b8c26 a:where(:not(.wp-element-button)){color:var(--wp--preset--color--v-8-gray);}
+</style>
+<script id="mkaz-code-syntax-prism-js-js-extra">
+var prism_settings = {"pluginUrl":"https:\/\/semaphore.io\/wp-content\/plugins\/code-syntax-block\/"};
+</script>
+<script src="./Getting Started with PHPUnit in Laravel - Semaphore_files/prism.js.download" id="mkaz-code-syntax-prism-js-js"></script>
+<script src="./Getting Started with PHPUnit in Laravel - Semaphore_files/hooks.min.js.download" id="wp-hooks-js"></script>
+<script src="./Getting Started with PHPUnit in Laravel - Semaphore_files/i18n.min.js.download" id="wp-i18n-js"></script>
+<script id="wp-i18n-js-after">
+wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
+</script>
+<script src="./Getting Started with PHPUnit in Laravel - Semaphore_files/index.js.download" id="swv-js"></script>
+<script id="contact-form-7-js-before">
+var wpcf7 = {
+    "api": {
+        "root": "https:\/\/semaphore.io\/wp-json\/",
+        "namespace": "contact-form-7\/v1"
+    }
+};
+</script>
+<script src="./Getting Started with PHPUnit in Laravel - Semaphore_files/index(1).js.download" id="contact-form-7-js"></script>
+<script id="star-count-js-extra">
+var MyPlugin = {"apiUrl":"https:\/\/semaphore.io\/wp-json\/myplugin\/v1\/star-count"};
+</script>
+<script src="./Getting Started with PHPUnit in Laravel - Semaphore_files/star-count.js.download" id="star-count-js"></script>
+<script id="wpcf7-redirect-script-js-extra">
+var wpcf7r = {"ajax_url":"https:\/\/semaphore.io\/wp-admin\/admin-ajax.php"};
+</script>
+<script src="./Getting Started with PHPUnit in Laravel - Semaphore_files/frontend-script.js.download" id="wpcf7-redirect-script-js"></script>
+<script src="./Getting Started with PHPUnit in Laravel - Semaphore_files/semaphore-dist.js.download" id="semaphoreci-scripts-js"></script>
+<script src="./Getting Started with PHPUnit in Laravel - Semaphore_files/comment-reply.min.js.download" id="comment-reply-js" async="" data-wp-strategy="async"></script>
+<script src="./Getting Started with PHPUnit in Laravel - Semaphore_files/toc-dist.js.download" id="semaphoreci-toc-js"></script>
+<script defer="" src="./Getting Started with PHPUnit in Laravel - Semaphore_files/akismet-frontend.js.download" id="akismet-frontend-js"></script>
+<script id="cf7-antispam-js-extra">
+var cf7a_settings = {"prefix":"_cf7a_","disableReload":"1","version":"mROd9dmLSKc8mHehZT6fNQ=="};
+</script>
+<script src="./Getting Started with PHPUnit in Laravel - Semaphore_files/script.js.download" id="cf7-antispam-js"></script>
+
+
+</body></html>

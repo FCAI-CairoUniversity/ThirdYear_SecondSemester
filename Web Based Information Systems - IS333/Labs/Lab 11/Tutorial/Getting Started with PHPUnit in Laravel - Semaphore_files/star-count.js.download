@@ -1,0 +1,20 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // Append a timestamp to the URL to ensure a unique URL.
+    var url = MyPlugin.apiUrl + '?_t=' + new Date().getTime();
+    fetch(url, { cache: 'no-cache' })
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function(data) {
+            var starCountElements = document.querySelectorAll('.github-star-counter');
+            starCountElements.forEach(function(element) {
+                element.textContent = data;
+            });
+        })
+        .catch(function(error) {
+            console.error('Error fetching GitHub star count:', error);
+        });
+});
