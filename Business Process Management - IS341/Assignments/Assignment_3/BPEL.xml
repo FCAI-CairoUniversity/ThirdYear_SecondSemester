@@ -1,0 +1,92 @@
+<!-- THE COMPLETE BPEL CODE WITHOUT USING MAPPINGS -->
+<process>
+    <sequence>
+        <receive name="New patient" createInstance="yes"/>
+        <scope>
+            <!-- Variables -->
+            <variables>
+                <variable name="isApproved" type="xsd:boolean"/>
+            </variables>
+            <!-- Initial Value -->
+            <assign>
+                <copy>
+                    <from>false()</from>
+                    <to>$isApproved</to>
+                </copy>
+            </assign>
+
+            <while condition="$isApproved = false()">
+                <sequence>
+                    <invoke name="Request an appointment"/>
+
+                    <!-- Mapping tc1 -->
+                    <switch>
+                        <case condition="Normal">
+                            <invoke name="Set with earlier Health provider"/>
+                        </case>
+                        <case condition="Emergency">
+                            <invoke name="Set with closest Health provider"/>
+                        </case>
+                    </switch>
+                    
+                    <!-- Mapping tc2 -->
+                    <flow>
+                        <switch>
+                            <case condition="Email">
+                                <invoke name="Notify by email"/>
+                            </case>
+                            <case condition="SMS">
+                                <invoke name="Notify by SMS"/>
+                            </case>
+                            <case condition="Email and SMS">
+                                <invoke name="Notify by email"/>
+                                <invoke name="Notify by SMS"/>
+                            </case>
+                        </switch>
+                    </flow>
+
+                    <switch>
+                        <case condition="Cancel appointment">
+                            <invoke name="Cancel appointment"/>
+                            <switch>
+                                <case condition="Exit">
+                                    <reply name="Patient left"/>
+                                    <terminate/>
+                                </case>
+                            </switch>
+                        </case>
+
+                        <case condition="Approve appointment">
+                           <assign>
+                                <copy>
+                                    <from>true()</from>
+                                    <to>$isApproved</to>
+                                </copy>
+                            </assign>
+                        </case>
+
+                        <case condition="Change appointment">
+                           <invoke name="Change appointment"/>
+                        </case>
+                    </switch>
+                </sequence>
+            </while>
+        </scope>
+
+        <!-- Mapping tc3 -->
+        <invoke name="Send information to Health provider"/>
+        <invoke name="Track the care of the patient"/>
+        <invoke name="Check for insurance"/>
+
+        <!-- Mapping tc6 -->
+        <switch>
+            <case condition="Yes">
+                <invoke name="Pay by insurance company"/>
+            </case>
+            <case condition="No">
+                <invoke name="Pay by credit card"/>
+            </case>
+        </switch>
+        <reply name="Patient served"/>
+    </sequence>
+</process>
